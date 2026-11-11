@@ -64,6 +64,26 @@ end-to-end encrypted, and no web client can read it.
 
 ---
 
+## 📱 界面 · Screenshots
+
+真机截图：登录 → 双重认证 → 照片库 → 云盘 → 设置。<br>
+*Straight from a phone: sign-in, two-factor, library, Drive, settings.*
+
+<table align="center">
+  <tr>
+    <td align="center" valign="top"><img src="docs/screenshots/sign-in.jpg" width="200" alt="Sign in with an Apple ID"><br><sub>登录 · Sign in</sub></td>
+    <td align="center" valign="top"><img src="docs/screenshots/two-factor.jpg" width="200" alt="Two-factor authentication"><br><sub>双重认证 · 2FA</sub></td>
+    <td align="center" valign="top"><img src="docs/screenshots/photos.jpg" width="200" alt="Photo library grid"><br><sub>照片库 · Library</sub></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><img src="docs/screenshots/drive.jpg" width="200" alt="iCloud Drive"><br><sub>云盘 · Drive</sub></td>
+    <td align="center" valign="top"><img src="docs/screenshots/settings.jpg" width="200" alt="Settings"><br><sub>设置 · Settings</sub></td>
+    <td></td>
+  </tr>
+</table>
+
+---
+
 ## English
 
 ### What it does
