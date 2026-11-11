@@ -114,6 +114,67 @@ release 与 debug 用的是不同密钥，不能互相 `install -r` 覆盖；而
   **没有统计 SDK、没有崩溃上报、没有自己的服务器** —— 数据不经过任何第三方。
 - 应用锁用 `BiometricPrompt`，选 `BIOMETRIC_WEAK` 以覆盖 2D 人脸，并保留设备密码兜底。
 
+## 发版与线上更新
+
+本应用不上任何商店，所以更新是自己做的：下载新 APK → 校验 → 交给系统安装器。
+全程不涉及 Play 的 In-App Updates。
+
+### 发一个版本的流程
+
+1. 版本号**只改一处** —— `app/build.gradle.kts`：
+
+   ```kotlin
+   val appVersionCode = 7          // 每次发版必须递增
+   val appVersionName = "1.0.5"
+   ```
+
+2. 构建并生成清单：
+
+   ```bash
+   ./gradlew :app:writeUpdateManifest
+   # → app/build/outputs/apk/release/app-release.apk
+   # → app/build/outputs/update.json   （versionCode、sha256、体积）
+   ```
+
+3. 编辑 `update.json`：把 `apkUrl` 里的 `<owner>/<repo>` 换成你的仓库，填好
+   `changelog`；如果这一版必须强制更新，就设置 `minSupportedVersionCode`。
+   然后建一个 `v1.0.5` 的 GitHub Release，把 `app-release.apk` 和 `update.json`
+   **两个都**作为资源上传。
+
+App 会请求 `GET /repos/{owner}/{repo}/releases/latest`，找到 `update.json` 资源再读它。
+任何一环失败（连不上 GitHub、没有 release、没有该资源）都会退回到
+`UpdateConfig.MANIFEST_URL` 配的静态地址。两个源都在
+`app/src/main/kotlin/cn/yunqiao/icloud/app/update/UpdateManifest.kt` 里配。
+
+### 清单格式
+
+```json
+{
+  "versionCode": 7,
+  "versionName": "1.0.5",
+  "apkUrl": "https://github.com/you/iCloudBridge/releases/download/v1.0.5/app-release.apk",
+  "sha256": "<64 位十六进制>",
+  "sizeBytes": 18930122,
+  "minSupportedVersionCode": 6,
+  "changelog": { "en": "Faster albums.", "zh-CN": "相册加载更快。" },
+  "publishedAt": "2026-11-11"
+}
+```
+
+参与比较的只有 `versionCode`，`versionName` 只用于显示。`minSupportedVersionCode`
+是强制更新的下界：低于它的版本关不掉更新对话框，必须升级。
+
+### 安装前的四道校验
+
+任何一条不通过都会中止安装：
+
+1. **SHA-256** 与清单一致（清单里给了才校验）；
+2. **签名证书**必须和手机上已装的一致 —— 这是真正的防线，伪造的包签不出你的证书；
+3. **包名**必须一致；
+4. APK 里的 **versionCode** 必须等于清单里的值。
+
+下载的包放在应用 cache 里，校验失败立即删除。
+
 ## 已知限制
 
 - 相册基本只读：不能新建相册、重命名、单张删除（删除只在「最近删除」里）。

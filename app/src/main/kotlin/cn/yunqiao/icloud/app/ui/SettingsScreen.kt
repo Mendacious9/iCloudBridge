@@ -52,6 +52,7 @@ import cn.yunqiao.icloud.app.BiometricLock
 import cn.yunqiao.icloud.app.BuildConfig
 import cn.yunqiao.icloud.app.LocaleSupport
 import cn.yunqiao.icloud.app.R
+import cn.yunqiao.icloud.app.update.UpdateState
 import cn.yunqiao.icloud.account.StorageUsage
 import cn.yunqiao.icloud.app.findFragmentActivity
 import cn.yunqiao.icloud.model.AccountInfo
@@ -202,6 +203,46 @@ fun SettingsScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             )
+
+            Separator()
+
+            // ---------------------------------------------------------- 更新
+            SectionTitle(stringResource(R.string.settings_update))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(enabled = vm.updateState !is UpdateState.Checking) {
+                        vm.checkUpdate(manual = true)
+                    }
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = stringResource(R.string.update_check),
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.weight(1f),
+                )
+                if (vm.updateState is UpdateState.Checking) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(16.dp),
+                        strokeWidth = 2.dp,
+                    )
+                } else {
+                    Text(
+                        text = BuildConfig.VERSION_NAME,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Icon(
+                        imageVector = Icons.Outlined.ChevronRight,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .padding(start = 4.dp)
+                            .size(18.dp),
+                    )
+                }
+            }
 
             Separator()
 

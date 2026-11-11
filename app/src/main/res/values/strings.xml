@@ -161,4 +161,24 @@
     <string name="notice_photo_saved">Saved to \"%1$s\"</string>
     <string name="err_photo_no_download">This item has no downloadable file</string>
     <string name="storage_unused">Available</string>
+
+    <!-- 线上更新 -->
+    <string name="settings_update">Updates</string>
+    <string name="update_check">Check for updates</string>
+    <string name="update_available_title">Version %1$s is available</string>
+    <string name="update_current">Current %1$s</string>
+    <string name="update_size">%1$s download</string>
+    <string name="update_changelog_title">What\'s new</string>
+    <string name="update_now">Update now</string>
+    <string name="update_later">Later</string>
+    <string name="update_skip">Skip this version</string>
+    <string name="update_forced_hint">This update is required to keep using the app.</string>
+    <string name="update_downloading_title">Downloading %1$s</string>
+    <string name="update_downloading">%1$d%%</string>
+    <string name="update_cancel">Cancel</string>
+    <string name="update_already_latest">You\'re on the latest version (%1$s).</string>
+    <string name="update_failed">Update check failed: %1$s</string>
+    <string name="update_download_failed">Download failed: %1$s</string>
+    <string name="update_need_permission">Allow this app to install apps, then try again.</string>
+    <string name="update_install_failed">Couldn\'t open the system installer. Please install manually from Settings.</string>
 </resources>

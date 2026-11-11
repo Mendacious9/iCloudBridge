@@ -152,4 +152,24 @@
     <string name="notice_photo_saved">已儲存到「%1$s」</string>
     <string name="err_photo_no_download">這個項目沒有可下載的檔案</string>
     <string name="storage_unused">未使用</string>
+
+    <!-- 線上更新 -->
+    <string name="settings_update">更新</string>
+    <string name="update_check">檢查更新</string>
+    <string name="update_available_title">發現新版本 %1$s</string>
+    <string name="update_current">目前版本 %1$s</string>
+    <string name="update_size">安裝檔 %1$s</string>
+    <string name="update_changelog_title">更新內容</string>
+    <string name="update_now">立即更新</string>
+    <string name="update_later">稍後</string>
+    <string name="update_skip">略過此版本</string>
+    <string name="update_forced_hint">此版本必須更新後才能繼續使用。</string>
+    <string name="update_downloading_title">正在下載 %1$s</string>
+    <string name="update_downloading">已下載 %1$d%%</string>
+    <string name="update_cancel">取消</string>
+    <string name="update_already_latest">已是最新版本（%1$s）。</string>
+    <string name="update_failed">檢查更新失敗：%1$s</string>
+    <string name="update_download_failed">下載失敗：%1$s</string>
+    <string name="update_need_permission">需要先允許本應用程式安裝應用程式，已為你開啟設定。</string>
+    <string name="update_install_failed">無法開啟系統安裝程式，請到設定中手動安裝。</string>
 </resources>

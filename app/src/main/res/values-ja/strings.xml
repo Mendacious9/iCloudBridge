@@ -152,4 +152,24 @@
     <string name="notice_photo_saved">「%1$s」に保存しました</string>
     <string name="err_photo_no_download">この項目にはダウンロードできるファイルがありません</string>
     <string name="storage_unused">空き</string>
+
+    <!-- アップデート -->
+    <string name="settings_update">アップデート</string>
+    <string name="update_check">アップデートを確認</string>
+    <string name="update_available_title">新しいバージョン %1$s があります</string>
+    <string name="update_current">現在 %1$s</string>
+    <string name="update_size">ダウンロード %1$s</string>
+    <string name="update_changelog_title">更新内容</string>
+    <string name="update_now">今すぐ更新</string>
+    <string name="update_later">あとで</string>
+    <string name="update_skip">このバージョンをスキップ</string>
+    <string name="update_forced_hint">このアップデートは必須です。続けるには更新してください。</string>
+    <string name="update_downloading_title">%1$s をダウンロード中</string>
+    <string name="update_downloading">%1$d%% 完了</string>
+    <string name="update_cancel">キャンセル</string>
+    <string name="update_already_latest">最新バージョンです（%1$s）。</string>
+    <string name="update_failed">アップデートの確認に失敗しました：%1$s</string>
+    <string name="update_download_failed">ダウンロードに失敗しました：%1$s</string>
+    <string name="update_need_permission">このアプリにアプリのインストールを許可してから、もう一度お試しください。</string>
+    <string name="update_install_failed">システムのインストーラーを開けませんでした。設定から手動でインストールしてください。</string>
 </resources>

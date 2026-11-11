@@ -1,4 +1,5 @@
 import java.io.FileInputStream
+import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -42,6 +43,14 @@ val debugSignWithRelease = providers.gradleProperty("debugSignWithRelease")
     .getOrElse("false")
     .toBoolean()
 
+/**
+ * 版本号集中在这里定义。
+ * 不能只写在 defaultConfig 里 —— `writeUpdateManifest` 任务要读它生成 update.json，
+ * 一旦两处各自维护，迟早出现「APK 是 7、清单写 6」这种更新永远推不下去的故障。
+ */
+val appVersionCode = 6
+val appVersionName = "1.0.4"
+
 android {
     namespace = "cn.yunqiao.icloud.app"
     compileSdk = 35
@@ -52,8 +61,8 @@ android {
         applicationId = "cn.yunqiao.icloud.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 6
-        versionName = "1.0.4"
+        versionCode = appVersionCode
+        versionName = appVersionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BUILD_DATE", "\"$buildDate\"")
     }
@@ -143,7 +152,76 @@ dependencies {
 
     debugImplementation("androidx.compose.ui:ui-tooling")
 
+    // 更新清单的解析、语言回退与强制更新判定都是纯逻辑，放在 JVM 单测里跑，不需要真机
+    testImplementation("junit:junit:4.13.2")
+
     // 转码链路必须在真机/模拟器上跑：MediaCodec 是硬件相关实现，纯 JVM 单测测不到
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test:runner:1.6.2")
+}
+
+/**
+ * 生成线上更新清单 update.json。
+ *
+ *   ./gradlew :app:writeUpdateManifest
+ *   → app/build/outputs/update.json
+ *
+ * 为什么要让脚本算 sha256：清单里的校验值和 APK 必须是同一份文件算出来的。
+ * 手动拷一次哈希，改一次版本就漏改，最后的表现是「下载完提示校验失败」，
+ * 而这个错误在发版时完全看不出来。
+ *
+ * 生成的清单里 apkUrl 是占位地址，发布前把 <owner>/<repo> 换成你的仓库，
+ * 并把 update.json 与 APK 一起上传到同一个 GitHub Release。
+ * minSupportedVersionCode 默认 0（不强制），要强制更新时改成目标下界。
+ */
+tasks.register("writeUpdateManifest") {
+    group = "distribution"
+    description = "生成 update.json（版本号 + sha256 + 体积），随 Release 一起上传"
+
+    // 依赖 assembleRelease：清单必须描述真实的产物，不能拿旧 APK 的哈希
+    dependsOn("assembleRelease")
+
+    val apkDir = layout.buildDirectory.dir("outputs/apk/release")
+    val outputFile = layout.buildDirectory.file("outputs/update.json")
+
+    doLast {
+        val apk = apkDir.get().asFile
+            .listFiles()
+            ?.firstOrNull { it.isFile && it.extension == "apk" }
+            ?: error("没找到 release APK：先确认 assembleRelease 成功，且 keystore 配置齐全")
+
+        val digest = MessageDigest.getInstance("SHA-256")
+        apk.inputStream().use { input ->
+            val buffer = ByteArray(64 * 1024)
+            while (true) {
+                val read = input.read(buffer)
+                if (read <= 0) break
+                digest.update(buffer, 0, read)
+            }
+        }
+        val sha256 = digest.digest().joinToString("") { String.format(Locale.ROOT, "%02x", it) }
+
+        val json = """
+            {
+              "versionCode": $appVersionCode,
+              "versionName": "$appVersionName",
+              "apkUrl": "https://github.com/<owner>/<repo>/releases/download/v$appVersionName/${apk.name}",
+              "sha256": "$sha256",
+              "sizeBytes": ${apk.length()},
+              "minSupportedVersionCode": 0,
+              "changelog": {
+                "en": "Describe what changed in this version.",
+                "zh-CN": "在这里写这个版本改了什么。"
+              },
+              "publishedAt": "${SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())}"
+            }
+        """.trimIndent() + "\n"
+
+        outputFile.get().asFile.apply {
+            parentFile.mkdirs()
+            writeText(json)
+        }
+        logger.lifecycle("update.json 已生成：${outputFile.get().asFile.absolutePath}")
+        logger.lifecycle("sha256=$sha256  size=${apk.length()}  version=$appVersionName($appVersionCode)")
+    }
 }

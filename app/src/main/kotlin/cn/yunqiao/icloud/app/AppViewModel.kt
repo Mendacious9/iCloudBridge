@@ -27,12 +27,19 @@ import cn.yunqiao.icloud.auth.TrustedPhone
 import cn.yunqiao.icloud.drive.DriveApi
 import cn.yunqiao.icloud.app.media.MediaInspector
 import cn.yunqiao.icloud.app.media.VideoTranscoder
+import cn.yunqiao.icloud.app.update.ApkInstaller
+import cn.yunqiao.icloud.app.update.UpdateChecker
+import cn.yunqiao.icloud.app.update.UpdateConfig
+import cn.yunqiao.icloud.app.update.UpdateDownloader
+import cn.yunqiao.icloud.app.update.UpdateState
 import cn.yunqiao.icloud.model.AccountInfo
 import cn.yunqiao.icloud.model.AssetSize
 import cn.yunqiao.icloud.model.Album
 import cn.yunqiao.icloud.model.DriveEntry
 import cn.yunqiao.icloud.model.PhotoAsset
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -150,7 +157,31 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         const val MAX_PHOTO_CELL = 240f
 
         const val PAGE = 60
+
+        /** 上次检查更新的时间戳；用于「6 小时内不重复打扰」 */
+        const val KEY_UPDATE_LAST_CHECK = "update_last_check"
+
+        /** 用户点了「跳过此版本」，记下这个 versionCode */
+        const val KEY_UPDATE_SKIPPED = "update_skipped_version"
     }
+
+    // ---------------------------------------------------------------- 线上更新
+
+    private val appContext = app.applicationContext
+    private val updateChecker = UpdateChecker()
+    private val updateDownloader by lazy { UpdateDownloader(appContext) }
+
+    /**
+     * 更新流程的状态。界面直接读它：非 Idle 就显示对应 UI。
+     * 之所以不像 [upload] 那样用可空类型，是因为「检查中 / 下载中 / 待安装」
+     * 都是有效状态，用 null 表达会让界面到处写分支。
+     */
+    var updateState by mutableStateOf<UpdateState>(UpdateState.Idle)
+        private set
+
+    /** 当前安装包的 versionCode，和清单比较的唯一依据 */
+    private val currentVersionCode: Int
+        get() = BuildConfig.VERSION_CODE
 
     private val prefs = app.getSharedPreferences("icloud_bridge", Context.MODE_PRIVATE)
 
@@ -1360,6 +1391,127 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     fun clearNotice() {
         notice = null
+    }
+
+    // ------------------------------------------------------------ 线上更新逻辑
+
+    /**
+     * 启动时静默检查一次。
+     *
+     * 只在「进入主页」这一步调用，所以登录页、2FA 页都不会打更新接口——
+     * 用户还没登录就先联网查版本，既不必要也容易被当成后台上报。
+     */
+    fun maybeCheckUpdateOnLaunch() {
+        val last = prefs.getLong(KEY_UPDATE_LAST_CHECK, 0L)
+        if (System.currentTimeMillis() - last < UpdateConfig.AUTO_CHECK_INTERVAL_MS) return
+        checkUpdate(manual = false)
+    }
+
+    /**
+     * 检查更新。
+     *
+     * @param manual 用户主动点的。区别在于：自动检查失败要**完全静默**
+     *   （网络不通是常态，弹个错误框只会打扰人）；手动检查失败必须给出原因。
+     */
+    fun checkUpdate(manual: Boolean) {
+        val busy = updateState is UpdateState.Checking ||
+            updateState is UpdateState.Downloading ||
+            updateState is UpdateState.ReadyToInstall
+        if (busy) return
+
+        viewModelScope.launch {
+            updateState = UpdateState.Checking
+            try {
+                val manifest = updateChecker.check()
+                prefs.edit().putLong(KEY_UPDATE_LAST_CHECK, System.currentTimeMillis()).apply()
+
+                if (manifest.versionCode <= currentVersionCode) {
+                    updateState = UpdateState.Idle
+                    if (manual) notice = uiText(R.string.update_already_latest, BuildConfig.VERSION_NAME)
+                    return@launch
+                }
+
+                val forced = manifest.isForcedFor(currentVersionCode)
+                // 跳过只对自动检查生效：用户手动点「检查更新」就是想看最新情况，
+                // 这时再拿旧记录把他挡回去会显得像坏了
+                if (!manual && !forced && prefs.getInt(KEY_UPDATE_SKIPPED, 0) == manifest.versionCode) {
+                    updateState = UpdateState.Idle
+                    return@launch
+                }
+
+                updateState = UpdateState.Available(manifest, forced)
+            } catch (e: Throwable) {
+                updateState = UpdateState.Idle
+                if (manual) error = uiText(R.string.update_failed, e.message.orEmpty())
+            }
+        }
+    }
+
+    /** 正在进行的下载任务；用户点「取消」时要能真的停下来 */
+    private var updateJob: Job? = null
+
+    /** 开始下载安装包。进度回调来自 IO 线程，直接写 Compose 状态是安全的。 */
+    fun downloadUpdate() {
+        val state = updateState as? UpdateState.Available ?: return
+        val manifest = state.manifest
+        updateJob?.cancel()
+        updateJob = viewModelScope.launch {
+            updateState = UpdateState.Downloading(manifest, 0f, state.forced)
+            try {
+                val apk = updateDownloader.download(manifest) { progress ->
+                    updateState = UpdateState.Downloading(manifest, progress, state.forced)
+                }
+                updateState = UpdateState.ReadyToInstall(manifest, apk, state.forced)
+                installUpdate()
+            } catch (e: CancellationException) {
+                // 用户主动取消，不是错误，状态已由 cancelDownload 改回 Available
+                throw e
+            } catch (e: Throwable) {
+                updateState = UpdateState.Available(manifest, state.forced)
+                error = uiText(R.string.update_download_failed, e.message.orEmpty())
+            } finally {
+                updateJob = null
+            }
+        }
+    }
+
+    /** 取消下载，退回「有新版本」的对话框 */
+    fun cancelDownload() {
+        val state = updateState as? UpdateState.Downloading ?: return
+        updateJob?.cancel()
+        updateJob = null
+        updateState = UpdateState.Available(state.manifest, state.forced)
+    }
+
+    /** 交给系统安装器。没有「安装未知应用」权限时先跳设置页。 */
+    fun installUpdate() {
+        val state = updateState as? UpdateState.ReadyToInstall ?: return
+        if (!ApkInstaller.canInstall(appContext)) {
+            ApkInstaller.openInstallPermission(appContext)
+            error = uiText(R.string.update_need_permission)
+            return
+        }
+        if (!ApkInstaller.install(appContext, state.apk)) {
+            error = uiText(R.string.update_install_failed)
+        }
+    }
+
+    /** 关闭对话框，下次启动再提 */
+    fun dismissUpdate() {
+        if (updateState is UpdateState.Available) updateState = UpdateState.Idle
+    }
+
+    /**
+     * 跳过这个版本。
+     *
+     * 强制更新的情况下前端已经不放这个按钮，这里再挡一次——
+     * 状态可能从别处被改成可跳过，不能只靠界面。
+     */
+    fun skipUpdateVersion() {
+        val state = updateState as? UpdateState.Available ?: return
+        if (state.forced) return
+        prefs.edit().putInt(KEY_UPDATE_SKIPPED, state.manifest.versionCode).apply()
+        updateState = UpdateState.Idle
     }
 
     /**

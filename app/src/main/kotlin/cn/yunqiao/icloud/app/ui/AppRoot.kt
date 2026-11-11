@@ -71,6 +71,9 @@ fun AppRoot(vm: AppViewModel) {
         if (vm.stage !is Stage.Ready) {
             showSettings = false
             showAbout = false
+        } else {
+            // 进入主页才查更新：登录/2FA 阶段不该先联网查版本
+            vm.maybeCheckUpdateOnLaunch()
         }
     }
 
@@ -98,6 +101,9 @@ fun AppRoot(vm: AppViewModel) {
 
         // 上传遮罩压在最上层，且不可取消：中途退出会留下半个文件
         vm.upload?.let { UploadOverlay(it) }
+
+        // 更新对话框在自己的下载/校验完成后调起系统安装器；这里只管提示与进度
+        UpdateDialog(vm)
 
         // 生物识别锁：盖住一切，锁住时连照片都不渲染
         if (vm.locked && vm.stage is Stage.Ready) {

@@ -6,4 +6,6 @@
 -->
 <paths>
     <cache-path name="drive" path="drive/" />
+    <!-- 自更新下载的 APK 也放在 cache，安装时同样要通过 content:// 授权给系统安装器 -->
+    <cache-path name="updates" path="updates/" />
 </paths>

@@ -127,6 +127,71 @@ For UI work on a real device, sign the debug variant with the release key instea
 If you find a security issue, please open an issue — or contact the maintainer
 privately if it is sensitive.
 
+## Releases and in-app updates
+
+This app is not distributed through any store, so it updates itself: it downloads a
+new APK, verifies it, and hands it to the system installer. There is no Play
+In-App Updates API involved.
+
+### Publishing a version
+
+1. Bump the version **in one place** — `app/build.gradle.kts`:
+
+   ```kotlin
+   val appVersionCode = 7          // must increase every release
+   val appVersionName = "1.0.5"
+   ```
+
+2. Build and generate the manifest:
+
+   ```bash
+   ./gradlew :app:writeUpdateManifest
+   # → app/build/outputs/apk/release/app-release.apk
+   # → app/build/outputs/update.json        (versionCode, sha256, size)
+   ```
+
+3. Edit `update.json`: replace `<owner>/<repo>` in `apkUrl` with your repository,
+   fill in `changelog`, and set `minSupportedVersionCode` if this release must be
+   forced. Then create a GitHub Release tagged `v1.0.5` and upload **both**
+   `app-release.apk` and `update.json` as assets.
+
+The app reads `GET /repos/{owner}/{repo}/releases/latest`, finds the `update.json`
+asset, and follows it. If that fails for any reason — no network to GitHub, no
+release, no asset — it falls back to `UpdateConfig.MANIFEST_URL` (a plain static
+URL you control). Configure both in
+`app/src/main/kotlin/cn/yunqiao/icloud/app/update/UpdateManifest.kt`.
+
+### Manifest format
+
+```json
+{
+  "versionCode": 7,
+  "versionName": "1.0.5",
+  "apkUrl": "https://github.com/you/iCloudBridge/releases/download/v1.0.5/app-release.apk",
+  "sha256": "<64 hex chars>",
+  "sizeBytes": 18930122,
+  "minSupportedVersionCode": 6,
+  "changelog": { "en": "Faster albums.", "zh-CN": "相册加载更快。" },
+  "publishedAt": "2026-11-11"
+}
+```
+
+`versionCode` is the only thing compared; `versionName` is display-only.
+`minSupportedVersionCode` is the floor for forced updates — an install below it
+cannot dismiss the dialog and must update.
+
+### What gets verified before an install
+
+Every update is checked four ways, and **any** mismatch aborts the install:
+
+1. **SHA-256** against `sha256` (if present);
+2. **Signing certificate** must equal the installed app's certificate — this is the
+   real defence, since a forged APK cannot be signed with your key;
+3. **Package name** must match;
+4. **versionCode** in the APK must equal the manifest's.
+
+The APK is downloaded to the app cache and deleted on failure.
+
 ## Known limitations
 
 - The photo library is effectively read-only: no creating albums, renaming, or

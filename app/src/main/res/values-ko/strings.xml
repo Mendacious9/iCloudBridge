@@ -152,4 +152,24 @@
     <string name="notice_photo_saved">"%1$s"에 저장했습니다</string>
     <string name="err_photo_no_download">이 항목에는 내려받을 파일이 없습니다</string>
     <string name="storage_unused">사용 가능</string>
+
+    <!-- 업데이트 -->
+    <string name="settings_update">업데이트</string>
+    <string name="update_check">업데이트 확인</string>
+    <string name="update_available_title">새 버전 %1$s 사용 가능</string>
+    <string name="update_current">현재 %1$s</string>
+    <string name="update_size">다운로드 %1$s</string>
+    <string name="update_changelog_title">업데이트 내용</string>
+    <string name="update_now">지금 업데이트</string>
+    <string name="update_later">나중에</string>
+    <string name="update_skip">이 버전 건너뛰기</string>
+    <string name="update_forced_hint">이 업데이트는 필수입니다. 계속하려면 업데이트하세요.</string>
+    <string name="update_downloading_title">%1$s 다운로드 중</string>
+    <string name="update_downloading">%1$d%% 완료</string>
+    <string name="update_cancel">취소</string>
+    <string name="update_already_latest">최신 버전입니다(%1$s).</string>
+    <string name="update_failed">업데이트 확인 실패: %1$s</string>
+    <string name="update_download_failed">다운로드 실패: %1$s</string>
+    <string name="update_need_permission">이 앱에 앱 설치를 허용한 후 다시 시도하세요.</string>
+    <string name="update_install_failed">시스템 설치 프로그램을 열 수 없습니다. 설정에서 직접 설치하세요.</string>
 </resources>

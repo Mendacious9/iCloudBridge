@@ -4,6 +4,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!--
+        自更新需要：本应用不上架任何商店，新版本只能由自己下载 APK 再交给系统安装器。
+        声明这个权限只代表「允许申请」，实际还要用户在「安装未知应用」里手动放行，
+        系统不会给 App 静默安装的能力。
+    -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"

@@ -1,0 +1,16 @@
+{
+  "versionCode": 7,
+  "versionName": "1.0.5",
+  "apkUrl": "https://github.com/<owner>/<repo>/releases/download/v1.0.5/app-release.apk",
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "sizeBytes": 18930122,
+  "minSupportedVersionCode": 0,
+  "changelog": {
+    "en": "Faster album loading; fixed Live Photo playback.",
+    "zh-CN": "相册加载更快；修复实况照片播放。",
+    "zh-TW": "相簿載入更快；修正實況照片播放。",
+    "ja": "アルバムの読み込みを高速化し、Live Photos の再生を修正しました。",
+    "ko": "앨범 로딩 속도를 개선하고 라이브 포토 재생을 수정했습니다."
+  },
+  "publishedAt": "2026-11-11"
+}

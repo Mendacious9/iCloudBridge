@@ -35,15 +35,19 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      # app 层的单测是纯 Kotlin（清单解析、强制更新边界、语言回退），
+      # 不碰 Android framework，因此普通 JVM 单测就能跑，不需要模拟器。
       - name: Run unit tests
-        run: ./gradlew :core:icloud:test --no-daemon --stacktrace
+        run: ./gradlew :core:icloud:test :app:testDebugUnitTest --no-daemon --stacktrace
 
       - name: Upload test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-report
-          path: core/icloud/build/reports/tests/
+          path: |
+            core/icloud/build/reports/tests/
+            app/build/reports/tests/
           retention-days: 7
 
   assemble:
