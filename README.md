@@ -7,6 +7,34 @@
 
 ---
 
+## 🎯 什么时候用得上 · When this helps
+
+- **从 iPhone 换成安卓，照片却还锁在 iCloud 里**
+  换机助手只搬通讯录和短信，「iCloud → 安卓」这条路它从来没管过。装好之后，几千张老照片和存档文件随时能翻，需要哪张当场存进手机。<br>
+  *You switched to Android, but years of photos are still sitting in iCloud. No migration tool ever covered that gap — the old library is now one tap away, and anything you need lands in your phone.*
+
+- **iPhone 和安卓双持**
+  一台工作、一台生活，照片和文件却得在两个系统之间来回跑。不用再「发给自己」或者绕道网盘，两边都能直接取。<br>
+  *One phone for work, one for life. Photos and files need to cross over both ways — no more "send to myself", no more relaying through a cloud drive.*
+
+- **受不了安卓浏览器里的网页版 iCloud**
+  相册翻页卡、缩放别扭、视频动不动黑屏。原生界面顺手得多：双指捏合调缩略图，左右划着看完整库。<br>
+  *The iCloud website on Android is rough — paging stutters, pinch-to-zoom feels wrong, videos barely play. A native app simply does it properly.*
+
+- **想在安卓平板或大屏上看 iCloud 照片**
+  不用投屏、不用先导出来。装上就是全屏相册，翻起来很顺。<br>
+  *Bring the library to an Android tablet and actually see it — no casting, no exporting first.*
+
+- **电脑不在手边，临时要取 iCloud Drive 里的一份文件**
+  手机上直接翻到、下载到本地，再转发给对方。<br>
+  *You're away from your computer and a file in iCloud Drive is needed right now. Find it, download it, forward it.*
+
+- **想把资料慢慢搬回自己手里**
+  不必一次搬完。把 iCloud 当成只读的来源，哪天想起哪张照片、哪份文件，就下载到安卓手机里存着。<br>
+  *Ease out of a single ecosystem at your own pace. Treat iCloud as a read-only source and pull things down to the phone whenever you need them.*
+
+---
+
 ## ⚠️ Before you start · 使用前必读
 
 **English** — Your Apple ID must allow **web access**. On iPhone or iPad:
