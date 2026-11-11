@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">iCloudBridge</string>
+    <string name="tagline">在安卓上管理你的 iCloud 照片与云盘</string>
+    <string name="booting">正在恢复登录状态…</string>
+
+    <string name="cd_more">更多</string>
+    <string name="cd_video">视频</string>
+    <string name="photo_live">LIVE</string>
+    <string name="cd_previous">上一级</string>
+    <string name="cd_refresh">刷新</string>
+    <string name="cd_view_grid">切换为图标视图</string>
+    <string name="cd_view_list">切换为列表视图</string>
+
+    <!-- 登录 -->
+    <string name="region_label">账号所属区域</string>
+    <string name="region_china">中国大陆</string>
+    <string name="region_global">其他国家和地区</string>
+    <string name="apple_id">Apple ID</string>
+    <string name="apple_id_hint">例如 XX@icloud.com</string>
+    <string name="remember_account">记住账号</string>
+    <string name="password">账户密码</string>
+    <string name="login">登录</string>
+    <string name="login_note">登录过程与网页版 iCloud 完全一致：密码经 SRP 协议加密后直接发给苹果，App 不保存密码，只保存登录成功后苹果下发的会话令牌。如果账号开启双重认证，下一步会要求输入短信验证码 —— 没有 iPhone 也能验证。</string>
+
+    <!-- 双重认证 -->
+    <string name="tf_title">双重认证</string>
+    <string name="tf_intro">苹果已向你的账号发送验证码。选择下面的任一方式获取，然后填入 6 位数字。</string>
+    <string name="tf_sms">短信验证码</string>
+    <string name="tf_device">受信设备</string>
+    <string name="tf_reading_phones">正在读取账号上绑定的手机号…</string>
+    <string name="tf_phone_error">没读到账号绑定的手机号，请点下面重试。</string>
+    <string name="tf_refetch_phones">重新获取手机号</string>
+    <string name="tf_phone_note">手机号来自苹果账号的「双重认证 → 受信任电话号码」。如果一直读不到，检查网络后重试；实在不行切换到「受信设备」。</string>
+    <string name="tf_send_code">发送验证码</string>
+    <string name="tf_resend">重新发送</string>
+    <string name="tf_send_first">先点右侧「发送验证码」，留意手机短信。</string>
+    <string name="tf_device_note">如果还有 iPad / Mac 等已登录该账号的设备，点下面的按钮，设备上会弹出授权提示，上面显示 6 位验证码。</string>
+    <string name="tf_device_send">向受信设备发送验证码</string>
+    <string name="tf_code_label">6 位验证码</string>
+    <string name="tf_verify">验证并继续</string>
+    <string name="tf_back">返回，换个账号登录</string>
+    <string name="tf_note">验证码由苹果服务器校验，本应用不会上传或存储它。验证通过后，苹果会下发可长期复用的会话令牌，之后打开 App 无需再次验证。</string>
+
+    <!-- 主页 -->
+    <string name="tab_photos">照片</string>
+    <string name="tab_drive">云盘</string>
+    <string name="all_photos">全部照片</string>
+    <string name="photos_zoom_hint">双指捏合可调整照片大小</string>
+    <string name="photos_empty">这个相册里没有照片</string>
+    <string name="photos_loading">正在加载…</string>
+    <string name="photos_end_count">共 %1$d 项，已全部加载</string>
+    <string name="menu_refresh">刷新当前页面</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_signout">退出登录</string>
+
+    <string name="drive_root">我的云盘</string>
+    <string name="drive_empty">这个文件夹是空的</string>
+    <string name="drive_download">下载</string>
+    <string name="drive_opening">正在打开…</string>
+    <string name="drive_saving">正在保存…</string>
+    <string name="err_drive_no_docwsid">「%1$s」无法下载：苹果没有返回文件标识，请刷新目录后再试</string>
+    <string name="err_drive_empty">「%1$s」是空文件（0 字节），没有可下载的内容</string>
+    <string name="notice_saved_no_viewer">手机上没有能打开这种文件的应用，已保存到「%1$s」</string>
+    <string name="drive_item_count">%1$d 项</string>
+    <string name="drive_upload">上传</string>
+
+    <!-- 上传 -->
+    <string name="upload_preparing">正在准备 %1$d 个文件…</string>
+    <string name="upload_progress">正在上传 %1$s（%2$d%%）</string>
+    <string name="upload_transcoding">正在把 %1$s 转成 H.264…</string>
+    <string name="upload_done">已上传 %1$d 个文件</string>
+    <string name="upload_done_with_failures">成功 %1$d 个，失败 %2$d 个</string>
+    <string name="upload_duplicate">图库里已有：%1$s</string>
+    <string name="upload_nothing">没有选中任何内容</string>
+    <string name="upload_indexing">已上传。苹果需要几秒钟索引，稍后刷新就能看到。</string>
+
+    <!-- 设置 -->
+    <string name="settings_title">设置</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_language_system">跟随系统</string>
+    <string name="lang_en">English</string>
+    <string name="lang_zh_cn">简体中文</string>
+    <string name="lang_zh_tw">繁體中文</string>
+    <string name="lang_ja">日本語</string>
+    <string name="lang_ko">한국어</string>
+    <string name="settings_security">安全</string>
+    <string name="settings_biometric">生物识别解锁</string>
+    <string name="settings_biometric_on">每次打开 App 需指纹或人脸验证</string>
+    <string name="settings_biometric_off">打开 App 直接进入</string>
+    <string name="settings_biometric_unavailable">设备未录入指纹/人脸，也未设置锁屏密码</string>
+    <string name="settings_account">账户</string>
+    <string name="settings_about">关于 APP</string>
+    <string name="about_title">关于 APP</string>
+    <string name="about_app_name">应用名称</string>
+    <string name="about_version">版本号</string>
+    <string name="about_updated">更新日期</string>
+    <string name="about_package">包名</string>
+    <string name="about_disclaimer">iCloudBridge 是非官方 iCloud 客户端，与苹果公司（Apple Inc.）无隶属关系。</string>
+    <string name="settings_signout">退出登录</string>
+
+    <!-- 账户 -->
+    <string name="account_title">iCloud 账户</string>
+    <string name="account_storage">存储空间</string>
+    <string name="storage_used_of_total">已用 %1$s，共 %2$s</string>
+    <string name="storage_free">剩余 %1$s</string>
+    <string name="storage_manage">在 iCloud.com 管理存储空间</string>
+    <string name="account_manage_hint">套餐变更与订阅由苹果在网页端处理，本应用只能读取当前用量。</string>
+    <string name="storage_loading">正在读取存储空间…</string>
+    <string name="storage_error">读取存储空间失败</string>
+    <string name="storage_key_photos">照片与视频</string>
+    <string name="storage_key_backup">备份</string>
+    <string name="storage_key_docs">文档</string>
+    <string name="storage_key_mail">邮件</string>
+    <string name="storage_key_messages">信息</string>
+
+    <!-- 生物识别 -->
+    <string name="bio_title">已锁定</string>
+    <string name="bio_subtitle">解锁后继续使用 iCloudBridge</string>
+    <string name="bio_unlock">解锁</string>
+    <string name="bio_failed">验证未通过，请重试</string>
+    <string name="bio_prompt_title">解锁 iCloudBridge</string>
+    <string name="bio_prompt_cancel">改用密码</string>
+
+    <!-- 错误 -->
+    <string name="err_input_required">请填写 Apple ID 和密码</string>
+    <string name="err_code_length">请输入 6 位验证码</string>
+    <string name="err_code_wrong">验证码不正确，请重新输入</string>
+    <string name="err_region_mismatch">账号不属于所选区域，请切换「中国大陆 / 其他国家和地区」后重试</string>
+    <string name="err_network">网络连接失败（%1$s）。请确认手机能正常上网，然后重试</string>
+    <string name="err_auth">Apple 拒绝了这次登录：%1$s</string>
+    <string name="err_unknown">出了点问题：%1$s</string>
+    <string name="err_relogin">登录授权不完整，请重新登录并完成双重认证</string>
+    <string name="err_phone_empty">苹果没有返回可信手机号</string>
+    <string name="err_upload_failed">上传失败：%1$s</string>
+    <string name="err_transcode_failed">视频转码失败：%1$s</string>
+
+    <!-- 提示 -->
+    <string name="notice_sms_sent">验证码已发送，请查看短信</string>
+    <string name="notice_push_sent">已向受信设备发送验证提示</string>
+    <string name="notice_saved_to">已保存到「%1$s」</string>
+    <string name="err_media_unsupported">苹果无法接收 %1$s：照片需为 JPEG / HEIC / PNG，视频编码必须是苹果可转码的（H.264 / HEVC）。</string>
+    <string name="viewer_close">关闭</string>
+    <string name="viewer_info">信息</string>
+    <string name="viewer_download">下载原图到相册</string>
+    <string name="viewer_saved">已存入相册</string>
+    <string name="viewer_swipe_hint">上滑查看信息</string>
+    <string name="viewer_load_failed">照片加载失败</string>
+    <string name="info_taken_at">拍摄时间</string>
+    <string name="info_place">地点</string>
+    <string name="info_resolution">尺寸</string>
+    <string name="info_duration">时长</string>
+    <string name="info_file_size">文件大小</string>
+    <string name="info_camera">相机</string>
+    <string name="info_lens">镜头</string>
+    <string name="info_focal">焦距</string>
+    <string name="info_aperture">光圈</string>
+    <string name="info_shutter">快门</string>
+    <string name="info_iso">感光度</string>
+    <string name="info_reading">正在读取信息…</string>
+    <string name="notice_photo_saved">已保存到「%1$s」</string>
+    <string name="err_photo_no_download">这个项目没有可下载的文件</string>
+    <string name="storage_unused">未使用</string>
+</resources>

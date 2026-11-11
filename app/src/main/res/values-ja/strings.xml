@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">iCloudBridge</string>
+    <string name="tagline">Android で iCloud の写真と Drive を管理</string>
+    <string name="booting">サインイン状態を復元しています…</string>
+
+    <string name="cd_more">その他</string>
+    <string name="cd_video">ビデオ</string>
+    <string name="photo_live">LIVE</string>
+    <string name="cd_previous">上の階層</string>
+    <string name="cd_refresh">更新</string>
+    <string name="cd_view_grid">アイコン表示に切り替え</string>
+    <string name="cd_view_list">リスト表示に切り替え</string>
+
+    <string name="region_label">アカウントの地域</string>
+    <string name="region_china">中国本土</string>
+    <string name="region_global">その他の国と地域</string>
+    <string name="apple_id">Apple ID</string>
+    <string name="apple_id_hint">例: XX@icloud.com</string>
+    <string name="remember_account">アカウントを記憶</string>
+    <string name="password">パスワード</string>
+    <string name="login">サインイン</string>
+    <string name="login_note">サインインはウェブ版 iCloud と同じ手順です。パスワードは SRP で暗号化され Apple に直接送信され、本アプリは保存しません。保存するのはサインイン後に Apple が発行するセッショントークンだけです。二要素認証が有効な場合は SMS コードを入力します（iPhone は不要）。</string>
+
+    <string name="tf_title">二要素認証</string>
+    <string name="tf_intro">Apple が確認コードを送信しました。下のいずれかの方法で取得し、6 桁を入力してください。</string>
+    <string name="tf_sms">SMS コード</string>
+    <string name="tf_device">信頼済みデバイス</string>
+    <string name="tf_reading_phones">アカウントの電話番号を読み込んでいます…</string>
+    <string name="tf_phone_error">電話番号を読み込めませんでした。下をタップして再試行してください。</string>
+    <string name="tf_refetch_phones">電話番号を再取得</string>
+    <string name="tf_phone_note">番号は Apple Account の「二要素認証 → 信頼できる電話番号」から取得します。読み込めない場合はネットワークを確認して再試行するか、「信頼済みデバイス」に切り替えてください。</string>
+    <string name="tf_send_code">コードを送信</string>
+    <string name="tf_resend">再送信</string>
+    <string name="tf_send_first">「コードを送信」をタップして SMS を確認してください。</string>
+    <string name="tf_device_note">同じアカウントでサインイン中の iPad や Mac がある場合は、下のボタンをタップしてください。6 桁のコードが表示されます。</string>
+    <string name="tf_device_send">信頼済みデバイスにコードを送信</string>
+    <string name="tf_code_label">6 桁のコード</string>
+    <string name="tf_verify">確認して続行</string>
+    <string name="tf_back">戻って別のアカウントでサインイン</string>
+    <string name="tf_note">コードは Apple のサーバーで検証され、本アプリがアップロードや保存をすることはありません。確認後、Apple は長期有効なセッショントークンを発行するため、次回以降は再確認不要です。</string>
+
+    <string name="tab_photos">写真</string>
+    <string name="tab_drive">Drive</string>
+    <string name="all_photos">すべての写真</string>
+    <string name="photos_zoom_hint">2本の指でピンチすると写真の大きさを変えられます</string>
+    <string name="photos_empty">このアルバムには写真がありません</string>
+    <string name="photos_loading">読み込み中…</string>
+    <string name="photos_end_count">%1$d 件、すべて読み込みました</string>
+    <string name="menu_refresh">再読み込み</string>
+    <string name="menu_settings">設定</string>
+    <string name="menu_signout">サインアウト</string>
+
+    <string name="drive_root">マイ Drive</string>
+    <string name="drive_empty">このフォルダは空です</string>
+    <string name="drive_download">ダウンロード</string>
+    <string name="drive_opening">開いています…</string>
+    <string name="drive_saving">保存しています…</string>
+    <string name="err_drive_no_docwsid">「%1$s」をダウンロードできません：iCloud がファイル ID を返しませんでした。フォルダを更新して再試行してください。</string>
+    <string name="err_drive_empty">「%1$s」は空のファイル（0 バイト）のため、ダウンロードする内容がありません。</string>
+    <string name="notice_saved_no_viewer">この形式を開けるアプリがないため、「%1$s」に保存しました</string>
+    <string name="drive_item_count">%1$d 件</string>
+    <string name="drive_upload">アップロード</string>
+
+    <string name="upload_preparing">%1$d 個のファイルを準備しています…</string>
+    <string name="upload_progress">%1$s をアップロード中（%2$d%%）</string>
+    <string name="upload_transcoding">%1$s を H.264 に変換中…</string>
+    <string name="upload_done">%1$d 個のファイルをアップロードしました</string>
+    <string name="upload_done_with_failures">成功 %1$d 件、失敗 %2$d 件</string>
+    <string name="upload_duplicate">ライブラリに既にあります: %1$s</string>
+    <string name="upload_nothing">何も選択されていません</string>
+    <string name="upload_indexing">アップロードしました。Apple が索引を作成するまで数秒かかります。しばらくしてから更新してください。</string>
+
+    <string name="settings_title">設定</string>
+    <string name="settings_language">言語</string>
+    <string name="settings_language_system">システムに従う</string>
+    <string name="lang_en">English</string>
+    <string name="lang_zh_cn">简体中文</string>
+    <string name="lang_zh_tw">繁體中文</string>
+    <string name="lang_ja">日本語</string>
+    <string name="lang_ko">한국어</string>
+    <string name="settings_security">セキュリティ</string>
+    <string name="settings_biometric">生体認証でロック解除</string>
+    <string name="settings_biometric_on">アプリを開くたびに指紋または顔認証を要求</string>
+    <string name="settings_biometric_off">アプリを開くとそのまま表示</string>
+    <string name="settings_biometric_unavailable">この端末には生体認証も画面ロックも登録されていません</string>
+    <string name="settings_account">アカウント</string>
+    <string name="settings_about">アプリについて</string>
+    <string name="about_title">アプリについて</string>
+    <string name="about_app_name">アプリ名</string>
+    <string name="about_version">バージョン</string>
+    <string name="about_updated">公開日</string>
+    <string name="about_package">パッケージ</string>
+    <string name="about_disclaimer">iCloudBridge は非公式の iCloud クライアントであり、Apple Inc. とは関係ありません。</string>
+    <string name="settings_signout">サインアウト</string>
+
+    <string name="account_title">iCloud アカウント</string>
+    <string name="account_storage">ストレージ</string>
+    <string name="storage_used_of_total">%2$s 中 %1$s 使用</string>
+    <string name="storage_free">空き %1$s</string>
+    <string name="storage_manage">iCloud.com でストレージを管理</string>
+    <string name="account_manage_hint">プラン変更やサブスクリプションは Apple のウェブで行われます。本アプリは現在の使用量を読み取るだけです。</string>
+    <string name="storage_loading">ストレージを読み込み中…</string>
+    <string name="storage_error">ストレージ使用量を読み込めませんでした</string>
+    <string name="storage_key_photos">写真とビデオ</string>
+    <string name="storage_key_backup">バックアップ</string>
+    <string name="storage_key_docs">書類</string>
+    <string name="storage_key_mail">メール</string>
+    <string name="storage_key_messages">メッセージ</string>
+
+    <string name="bio_title">ロック中</string>
+    <string name="bio_subtitle">ロックを解除して続行</string>
+    <string name="bio_unlock">ロック解除</string>
+    <string name="bio_failed">確認できませんでした。もう一度お試しください。</string>
+    <string name="bio_prompt_title">iCloudBridge のロック解除</string>
+    <string name="bio_prompt_cancel">パスワードを使用</string>
+
+    <string name="err_input_required">Apple ID とパスワードを入力してください</string>
+    <string name="err_code_length">6 桁のコードを入力してください</string>
+    <string name="err_code_wrong">コードが正しくありません。もう一度入力してください。</string>
+    <string name="err_region_mismatch">このアカウントは別の地域のものです。「中国本土 / その他の国と地域」を切り替えて再試行してください。</string>
+    <string name="err_network">ネットワークエラー: %1$s。接続を確認して再試行してください。</string>
+    <string name="err_auth">Apple がサインインを拒否しました: %1$s</string>
+    <string name="err_unknown">問題が発生しました: %1$s</string>
+    <string name="err_relogin">サインイン情報が不完全です。再度サインインして二要素認証を完了してください。</string>
+    <string name="err_phone_empty">Apple が信頼済み電話番号を返しませんでした</string>
+    <string name="err_upload_failed">アップロードに失敗しました: %1$s</string>
+    <string name="err_transcode_failed">動画の変換に失敗しました：%1$s</string>
+
+    <string name="notice_sms_sent">コードを送信しました。メッセージを確認してください。</string>
+    <string name="notice_push_sent">信頼済みデバイスにサインインの確認を送信しました</string>
+    <string name="notice_saved_to">「%1$s」に保存しました</string>
+    <string name="err_media_unsupported">Apple は %1$s を受け取れません。写真は JPEG／HEIC／PNG、ビデオは Apple が変換できるコーデック（H.264／HEVC）である必要があります。</string>
+    <string name="viewer_close">閉じる</string>
+    <string name="viewer_info">情報</string>
+    <string name="viewer_download">オリジナルを写真に保存</string>
+    <string name="viewer_saved">写真に保存しました</string>
+    <string name="viewer_swipe_hint">上にスワイプで情報を表示</string>
+    <string name="viewer_load_failed">写真を読み込めませんでした</string>
+    <string name="info_taken_at">撮影日時</string>
+    <string name="info_place">場所</string>
+    <string name="info_resolution">サイズ</string>
+    <string name="info_duration">長さ</string>
+    <string name="info_file_size">ファイルサイズ</string>
+    <string name="info_camera">カメラ</string>
+    <string name="info_lens">レンズ</string>
+    <string name="info_focal">焦点距離</string>
+    <string name="info_aperture">絞り</string>
+    <string name="info_shutter">シャッター</string>
+    <string name="info_iso">ISO</string>
+    <string name="info_reading">情報を読み込み中…</string>
+    <string name="notice_photo_saved">「%1$s」に保存しました</string>
+    <string name="err_photo_no_download">この項目にはダウンロードできるファイルがありません</string>
+    <string name="storage_unused">空き</string>
+</resources>

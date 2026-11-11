@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    只在 debug 构建生效的清单片段（由 manifest merger 合并进主清单）。
+    用途见 UiPreviewActivity.kt：不登录直接渲染主界面，用来核对各种屏幕尺寸。
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name=".UiPreviewActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ICloudBridge" />
+
+        <!-- 调试用：把本机 poc 会话写进加密存储，免 2FA 跑真实云盘链路 -->
+        <activity
+            android:name=".SessionImportActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ICloudBridge" />
+    </application>
+
+</manifest>

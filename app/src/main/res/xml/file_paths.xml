@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    云盘文件下载到 cache/drive 后，要交给系统应用打开，必须通过 FileProvider 授权。
+    只暴露这一个子目录：文件系统的其它部分（含 Keystore 密文所在的 shared_prefs）
+    不能被外部应用借这个 provider 读到。
+-->
+<paths>
+    <cache-path name="drive" path="drive/" />
+</paths>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">iCloudBridge</string>
+    <string name="tagline">Manage your iCloud Photos and Drive on Android</string>
+    <string name="booting">Restoring your session…</string>
+
+    <string name="cd_more">More</string>
+    <string name="cd_video">Video</string>
+    <string name="photo_live">LIVE</string>
+    <string name="cd_previous">Back</string>
+    <string name="cd_refresh">Refresh</string>
+    <string name="cd_view_grid">Switch to icon view</string>
+    <string name="cd_view_list">Switch to list view</string>
+
+    <!-- Login -->
+    <string name="region_label">Account region</string>
+    <string name="region_china">Mainland China</string>
+    <string name="region_global">Other countries and regions</string>
+    <string name="apple_id">Apple ID</string>
+    <string name="apple_id_hint">e.g. XX@icloud.com</string>
+    <string name="remember_account">Remember account</string>
+    <string name="password">Password</string>
+    <string name="login">Sign in</string>
+    <string name="login_note">Signing in works exactly like iCloud on the web: your password is SRP-encrypted and sent straight to Apple. This app never stores it — only the session token Apple issues afterwards. If two-factor authentication is on, the next step asks for an SMS code, so an iPhone is not required.</string>
+
+    <!-- Two-factor -->
+    <string name="tf_title">Two-factor authentication</string>
+    <string name="tf_intro">Apple has sent a verification code. Pick one of the methods below, then enter the 6 digits.</string>
+    <string name="tf_sms">SMS code</string>
+    <string name="tf_device">Trusted device</string>
+    <string name="tf_reading_phones">Reading the phone numbers on your account…</string>
+    <string name="tf_phone_error">Could not read the phone numbers on your account. Tap below to retry.</string>
+    <string name="tf_refetch_phones">Fetch phone numbers again</string>
+    <string name="tf_phone_note">Numbers come from "Two-Factor Authentication → Trusted Phone Numbers" on your Apple Account. If they never load, check your network and retry, or switch to Trusted device.</string>
+    <string name="tf_send_code">Send code</string>
+    <string name="tf_resend">Resend</string>
+    <string name="tf_send_first">Tap "Send code", then watch for the SMS.</string>
+    <string name="tf_device_note">If you still have an iPad or Mac signed in to this account, tap the button below. A prompt with a 6-digit code appears on that device.</string>
+    <string name="tf_device_send">Send code to trusted device</string>
+    <string name="tf_code_label">6-digit code</string>
+    <string name="tf_verify">Verify and continue</string>
+    <string name="tf_back">Go back and use another account</string>
+    <string name="tf_note">Codes are verified by Apple’s servers; this app never uploads or stores them. Once verified, Apple issues a long-lived session token, so you will not be asked again next time.</string>
+
+    <!-- Home -->
+    <string name="tab_photos">Photos</string>
+    <string name="tab_drive">Drive</string>
+    <string name="all_photos">All photos</string>
+    <string name="photos_zoom_hint">Pinch with two fingers to change the photo size</string>
+    <string name="photos_empty">No photos in this album</string>
+    <string name="photos_loading">Loading…</string>
+    <string name="photos_end_count">%1$d items, all loaded</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_signout">Sign out</string>
+
+    <string name="drive_root">My Drive</string>
+    <string name="drive_empty">This folder is empty</string>
+    <string name="drive_download">Download</string>
+    <string name="drive_opening">Opening…</string>
+    <string name="drive_saving">Saving…</string>
+    <string name="err_drive_no_docwsid">"%1$s" can\'t be downloaded: iCloud returned no file id for it. Try refreshing the folder.</string>
+    <string name="err_drive_empty">"%1$s" is empty (0 bytes), so there is nothing to download.</string>
+    <string name="notice_saved_no_viewer">No app can open this file type, so it was saved to "%1$s"</string>
+    <string name="drive_item_count">%1$d items</string>
+    <string name="drive_upload">Upload</string>
+
+    <!-- Upload -->
+    <string name="upload_preparing">Preparing %1$d file(s)…</string>
+    <string name="upload_progress">Uploading %1$s (%2$d%%)</string>
+    <string name="upload_transcoding">Converting %1$s to H.264…</string>
+    <string name="upload_done">Uploaded %1$d file(s)</string>
+    <string name="upload_done_with_failures">Uploaded %1$d, failed %2$d</string>
+    <string name="upload_duplicate">Already in your library: %1$s</string>
+    <string name="upload_nothing">Nothing was selected</string>
+    <string name="upload_indexing">Uploaded. iCloud indexes new items for a few seconds, then they appear here.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_system">Follow system</string>
+    <string name="lang_en">English</string>
+    <string name="lang_zh_cn">简体中文</string>
+    <string name="lang_zh_tw">繁體中文</string>
+    <string name="lang_ja">日本語</string>
+    <string name="lang_ko">한국어</string>
+    <string name="settings_security">Security</string>
+    <string name="settings_biometric">Unlock with biometrics</string>
+    <string name="settings_biometric_on">Ask for fingerprint or face each time the app opens</string>
+    <string name="settings_biometric_off">Session opens directly</string>
+    <string name="settings_biometric_unavailable">This device has no biometric or screen lock enrolled</string>
+    <string name="settings_account">Account</string>
+    <string name="settings_about">About</string>
+    <string name="about_title">About</string>
+    <string name="about_app_name">App name</string>
+    <string name="about_version">Version</string>
+    <string name="about_updated">Release date</string>
+    <string name="about_package">Package</string>
+    <string name="about_disclaimer">iCloudBridge is an unofficial iCloud client and is not affiliated with Apple Inc.</string>
+    <string name="settings_signout">Sign out</string>
+
+    <!-- Account -->
+    <string name="account_title">iCloud account</string>
+    <string name="account_storage">Storage</string>
+    <string name="storage_used_of_total">%1$s of %2$s used</string>
+    <string name="storage_free">%1$s available</string>
+    <string name="storage_manage">Manage storage on iCloud.com</string>
+    <string name="account_manage_hint">Plan changes and subscriptions are handled by Apple on the web. This app can only read what your account currently uses.</string>
+    <string name="storage_loading">Reading storage…</string>
+    <string name="storage_error">Could not read storage usage</string>
+    <string name="storage_key_photos">Photos and videos</string>
+    <string name="storage_key_backup">Backups</string>
+    <string name="storage_key_docs">Documents</string>
+    <string name="storage_key_mail">Mail</string>
+    <string name="storage_key_messages">Messages</string>
+
+    <!-- Biometric gate -->
+    <string name="bio_title">Locked</string>
+    <string name="bio_subtitle">Unlock iCloudBridge to continue</string>
+    <string name="bio_unlock">Unlock</string>
+    <string name="bio_failed">Could not verify. Try again.</string>
+    <string name="bio_prompt_title">Unlock iCloudBridge</string>
+    <string name="bio_prompt_cancel">Use password instead</string>
+
+    <!-- Errors -->
+    <string name="err_input_required">Enter your Apple ID and password</string>
+    <string name="err_code_length">Enter the 6-digit code</string>
+    <string name="err_code_wrong">That code is not correct. Try again.</string>
+    <string name="err_region_mismatch">This account belongs to the other region. Switch between Mainland China and Other countries and try again.</string>
+    <string name="err_network">Network problem: %1$s. Check your connection and retry.</string>
+    <string name="err_auth">Apple rejected the sign-in: %1$s</string>
+    <string name="err_unknown">Something went wrong: %1$s</string>
+    <string name="err_relogin">The saved sign-in is incomplete. Please sign in again and finish two-factor authentication.</string>
+    <string name="err_phone_empty">Apple returned no trusted phone numbers</string>
+    <string name="err_upload_failed">Upload failed: %1$s</string>
+    <string name="err_transcode_failed">Could not convert this video: %1$s</string>
+
+    <!-- Notices -->
+    <string name="notice_sms_sent">Code sent. Check your messages.</string>
+    <string name="notice_push_sent">A sign-in prompt was sent to your trusted devices</string>
+    <string name="notice_saved_to">Saved to \"%1$s\"</string>
+    <string name="err_media_unsupported">iCloud will not accept %1$s. Photos must be JPEG, HEIC or PNG; videos must use a codec Apple can transcode (H.264/HEVC).</string>
+    <string name="viewer_close">Close</string>
+    <string name="viewer_info">Info</string>
+    <string name="viewer_download">Save original to Photos</string>
+    <string name="viewer_saved">Saved to Photos</string>
+    <string name="viewer_swipe_hint">Swipe up for info</string>
+    <string name="viewer_load_failed">Could not load this photo</string>
+    <string name="info_taken_at">Taken</string>
+    <string name="info_place">Place</string>
+    <string name="info_resolution">Dimensions</string>
+    <string name="info_duration">Duration</string>
+    <string name="info_file_size">File size</string>
+    <string name="info_camera">Camera</string>
+    <string name="info_lens">Lens</string>
+    <string name="info_focal">Focal length</string>
+    <string name="info_aperture">Aperture</string>
+    <string name="info_shutter">Shutter</string>
+    <string name="info_iso">ISO</string>
+    <string name="info_reading">Reading details…</string>
+    <string name="notice_photo_saved">Saved to \"%1$s\"</string>
+    <string name="err_photo_no_download">This item has no downloadable file</string>
+    <string name="storage_unused">Available</string>
+</resources>

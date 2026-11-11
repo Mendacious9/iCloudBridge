@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ICloudBridge"
+        android:usesCleartextTraffic="false">
+
+        <!--
+            resizeableActivity：允许分屏、悬浮窗、折叠屏展开/合起。
+            三星 DeX、华为平行视界、小米分屏都会读这个开关，缺省虽然也是 true，
+            但显式写上，行为在低版本 ROM 的魔改里也一致。
+
+            configChanges 里加 smallestScreenSize：折叠屏展开时窗口尺寸变化但
+            smallestWidth 也会变，不加这一项 Activity 会被重建，登录页刚输入的
+            账号密码就没了。加进来后由 Compose 自己按新尺寸重排。
+        -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:resizeableActivity="true"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.ICloudBridge">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            云盘文件「打开」用：把 cache/drive 下的文件以 content:// 形式临时授权给
+            系统查看器（WPS、图库、PDF 阅读器等）。没有它，Android 7+ 用 file:// 会直接
+            FileUriExposedException，表现就是「点文件没反应」。
+            exported=false + grantUriPermissions 是唯一安全配置：不对外暴露入口，
+            但允许逐个 Intent 授权。
+        -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.files"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

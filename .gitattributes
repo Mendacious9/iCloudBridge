@@ -1,0 +1,13 @@
+# 统一换行符，避免 Windows 提交的文件在 Linux/macOS 上出现整文件 diff
+* text=auto eol=lf
+
+# Windows 批处理必须是 CRLF，否则 cmd.exe 可能解析失败
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制：不要做任何换行或文本转换
+*.jar binary
+*.jks binary
+*.png binary
+*.jpg binary
+*.webp binary

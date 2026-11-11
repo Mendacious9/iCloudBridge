@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">iCloudBridge</string>
+    <string name="tagline">在 Android 上管理你的 iCloud 照片與雲端硬碟</string>
+    <string name="booting">正在還原登入狀態…</string>
+
+    <string name="cd_more">更多</string>
+    <string name="cd_video">影片</string>
+    <string name="photo_live">LIVE</string>
+    <string name="cd_previous">上一層</string>
+    <string name="cd_refresh">重新整理</string>
+    <string name="cd_view_grid">切換為圖示檢視</string>
+    <string name="cd_view_list">切換為列表檢視</string>
+
+    <string name="region_label">帳號所屬區域</string>
+    <string name="region_china">中國大陸</string>
+    <string name="region_global">其他國家和地區</string>
+    <string name="apple_id">Apple ID</string>
+    <string name="apple_id_hint">例如 XX@icloud.com</string>
+    <string name="remember_account">記住帳號</string>
+    <string name="password">帳號密碼</string>
+    <string name="login">登入</string>
+    <string name="login_note">登入流程與網頁版 iCloud 完全一致：密碼經 SRP 協定加密後直接傳給 Apple，App 不儲存密碼，只儲存登入成功後 Apple 下發的工作階段權杖。若帳號開啟雙重認證，下一步會要求輸入簡訊驗證碼 —— 沒有 iPhone 也能驗證。</string>
+
+    <string name="tf_title">雙重認證</string>
+    <string name="tf_intro">Apple 已向你的帳號傳送驗證碼。選擇下方任一方式取得，然後填入 6 位數字。</string>
+    <string name="tf_sms">簡訊驗證碼</string>
+    <string name="tf_device">信任的裝置</string>
+    <string name="tf_reading_phones">正在讀取帳號綁定的手機號碼…</string>
+    <string name="tf_phone_error">讀不到帳號綁定的手機號碼，請點下方重試。</string>
+    <string name="tf_refetch_phones">重新取得手機號碼</string>
+    <string name="tf_phone_note">號碼來自 Apple 帳號的「雙重認證 → 受信任電話號碼」。若一直讀不到，請檢查網路後重試；真的不行就切換到「信任的裝置」。</string>
+    <string name="tf_send_code">傳送驗證碼</string>
+    <string name="tf_resend">重新傳送</string>
+    <string name="tf_send_first">先點右側「傳送驗證碼」，留意手機簡訊。</string>
+    <string name="tf_device_note">若還有 iPad / Mac 等已登入此帳號的裝置，點下方按鈕，裝置上會跳出授權提示並顯示 6 位驗證碼。</string>
+    <string name="tf_device_send">傳送驗證碼到信任裝置</string>
+    <string name="tf_code_label">6 位驗證碼</string>
+    <string name="tf_verify">驗證並繼續</string>
+    <string name="tf_back">返回，改用其他帳號登入</string>
+    <string name="tf_note">驗證碼由 Apple 伺服器驗證，本應用不會上傳或儲存它。驗證通過後，Apple 會下發可長期重複使用的工作階段權杖，之後開啟 App 無需再次驗證。</string>
+
+    <string name="tab_photos">照片</string>
+    <string name="tab_drive">雲端硬碟</string>
+    <string name="all_photos">所有照片</string>
+    <string name="photos_zoom_hint">雙指捏合可調整照片大小</string>
+    <string name="photos_empty">這個相簿裡沒有照片</string>
+    <string name="photos_loading">正在載入…</string>
+    <string name="photos_end_count">共 %1$d 項，已全部載入</string>
+    <string name="menu_refresh">重新整理本頁</string>
+    <string name="menu_settings">設定</string>
+    <string name="menu_signout">登出</string>
+
+    <string name="drive_root">我的雲端硬碟</string>
+    <string name="drive_empty">這個資料夾是空的</string>
+    <string name="drive_download">下載</string>
+    <string name="drive_opening">正在開啟…</string>
+    <string name="drive_saving">正在儲存…</string>
+    <string name="err_drive_no_docwsid">「%1$s」無法下載：蘋果沒有回應檔案識別碼，請重新整理目錄後再試</string>
+    <string name="err_drive_empty">「%1$s」是空檔案（0 位元組），沒有可下載的內容</string>
+    <string name="notice_saved_no_viewer">手機上沒有能開啟這種檔案的應用程式，已儲存到「%1$s」</string>
+    <string name="drive_item_count">%1$d 項</string>
+    <string name="drive_upload">上傳</string>
+
+    <string name="upload_preparing">正在準備 %1$d 個檔案…</string>
+    <string name="upload_progress">正在上傳 %1$s（%2$d%%）</string>
+    <string name="upload_transcoding">正在把 %1$s 轉成 H.264…</string>
+    <string name="upload_done">已上傳 %1$d 個檔案</string>
+    <string name="upload_done_with_failures">成功 %1$d 個，失敗 %2$d 個</string>
+    <string name="upload_duplicate">圖庫中已有：%1$s</string>
+    <string name="upload_nothing">沒有選取任何項目</string>
+    <string name="upload_indexing">已上傳。Apple 需要幾秒鐘建立索引，稍後重新整理即可看到。</string>
+
+    <string name="settings_title">設定</string>
+    <string name="settings_language">語言</string>
+    <string name="settings_language_system">跟隨系統</string>
+    <string name="lang_en">English</string>
+    <string name="lang_zh_cn">简体中文</string>
+    <string name="lang_zh_tw">繁體中文</string>
+    <string name="lang_ja">日本語</string>
+    <string name="lang_ko">한국어</string>
+    <string name="settings_security">安全性</string>
+    <string name="settings_biometric">生物辨識解鎖</string>
+    <string name="settings_biometric_on">每次開啟 App 需指紋或臉部辨識</string>
+    <string name="settings_biometric_off">開啟 App 直接進入</string>
+    <string name="settings_biometric_unavailable">裝置未登錄指紋／臉部，也未設定螢幕鎖定密碼</string>
+    <string name="settings_account">帳號</string>
+    <string name="settings_about">關於 APP</string>
+    <string name="about_title">關於 APP</string>
+    <string name="about_app_name">應用程式名稱</string>
+    <string name="about_version">版本號</string>
+    <string name="about_updated">更新日期</string>
+    <string name="about_package">套件名稱</string>
+    <string name="about_disclaimer">iCloudBridge 為非官方 iCloud 用戶端，與蘋果公司（Apple Inc.）無隸屬關係。</string>
+    <string name="settings_signout">登出</string>
+
+    <string name="account_title">iCloud 帳號</string>
+    <string name="account_storage">儲存空間</string>
+    <string name="storage_used_of_total">已用 %1$s，共 %2$s</string>
+    <string name="storage_free">剩餘 %1$s</string>
+    <string name="storage_manage">在 iCloud.com 管理儲存空間</string>
+    <string name="account_manage_hint">方案變更與訂閱由 Apple 在網頁端處理，本應用只能讀取目前用量。</string>
+    <string name="storage_loading">正在讀取儲存空間…</string>
+    <string name="storage_error">讀取儲存空間失敗</string>
+    <string name="storage_key_photos">照片與影片</string>
+    <string name="storage_key_backup">備份</string>
+    <string name="storage_key_docs">文件</string>
+    <string name="storage_key_mail">郵件</string>
+    <string name="storage_key_messages">訊息</string>
+
+    <string name="bio_title">已鎖定</string>
+    <string name="bio_subtitle">解鎖後繼續使用 iCloudBridge</string>
+    <string name="bio_unlock">解鎖</string>
+    <string name="bio_failed">驗證未通過，請重試</string>
+    <string name="bio_prompt_title">解鎖 iCloudBridge</string>
+    <string name="bio_prompt_cancel">改用密碼</string>
+
+    <string name="err_input_required">請填寫 Apple ID 和密碼</string>
+    <string name="err_code_length">請輸入 6 位驗證碼</string>
+    <string name="err_code_wrong">驗證碼不正確，請重新輸入</string>
+    <string name="err_region_mismatch">帳號不屬於所選區域，請切換「中國大陸／其他國家和地區」後重試</string>
+    <string name="err_network">網路連線失敗（%1$s）。請確認手機能正常上網，然後重試</string>
+    <string name="err_auth">Apple 拒絕了這次登入：%1$s</string>
+    <string name="err_unknown">發生問題：%1$s</string>
+    <string name="err_relogin">登入授權不完整，請重新登入並完成雙重認證</string>
+    <string name="err_phone_empty">Apple 沒有回傳受信任手機號碼</string>
+    <string name="err_upload_failed">上傳失敗：%1$s</string>
+    <string name="err_transcode_failed">影片轉碼失敗：%1$s</string>
+
+    <string name="notice_sms_sent">驗證碼已傳送，請查看簡訊</string>
+    <string name="notice_push_sent">已向信任裝置傳送驗證提示</string>
+    <string name="notice_saved_to">已儲存到「%1$s」</string>
+    <string name="err_media_unsupported">Apple 無法接收 %1$s：照片需為 JPEG／HEIC／PNG，影片編碼必須是 Apple 可轉碼的（H.264／HEVC）。</string>
+    <string name="viewer_close">關閉</string>
+    <string name="viewer_info">資訊</string>
+    <string name="viewer_download">下載原圖到相簿</string>
+    <string name="viewer_saved">已存入相簿</string>
+    <string name="viewer_swipe_hint">上滑查看資訊</string>
+    <string name="viewer_load_failed">照片載入失敗</string>
+    <string name="info_taken_at">拍攝時間</string>
+    <string name="info_place">地點</string>
+    <string name="info_resolution">尺寸</string>
+    <string name="info_duration">長度</string>
+    <string name="info_file_size">檔案大小</string>
+    <string name="info_camera">相機</string>
+    <string name="info_lens">鏡頭</string>
+    <string name="info_focal">焦距</string>
+    <string name="info_aperture">光圈</string>
+    <string name="info_shutter">快門</string>
+    <string name="info_iso">感光度</string>
+    <string name="info_reading">正在讀取資訊…</string>
+    <string name="notice_photo_saved">已儲存到「%1$s」</string>
+    <string name="err_photo_no_download">這個項目沒有可下載的檔案</string>
+    <string name="storage_unused">未使用</string>
+</resources>
