@@ -48,8 +48,8 @@ val debugSignWithRelease = providers.gradleProperty("debugSignWithRelease")
  * 不能只写在 defaultConfig 里 —— `writeUpdateManifest` 任务要读它生成 update.json，
  * 一旦两处各自维护，迟早出现「APK 是 7、清单写 6」这种更新永远推不下去的故障。
  */
-val appVersionCode = 6
-val appVersionName = "1.0.4"
+val appVersionCode = 7
+val appVersionName = "1.0.5"
 
 android {
     namespace = "cn.yunqiao.icloud.app"
