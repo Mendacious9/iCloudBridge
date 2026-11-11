@@ -1,71 +1,84 @@
 # iCloudBridge
 
-**An unofficial Android client for iCloud Photos and iCloud Drive.**
-**非官方的 iCloud 相册与云盘安卓客户端。**
+**Unofficial Android client for iCloud Photos and iCloud Drive**
+**非官方 iCloud 相册与云盘安卓客户端**
 
-`Kotlin` · `Jetpack Compose` · `MIT` · `minSdk 26`
+`Kotlin` · `Jetpack Compose` · `MIT` · `Android 8.0+`
+
+---
+
+## ⚠️ Before you start · 使用前必读
+
+**English** — Your Apple ID must allow **web access**. On iPhone or iPad:
+*Settings → [your name] → iCloud → iCloud.com → turn on "Allow Data Access"*
+(on iOS 18 and earlier: *Settings → [your name] → iCloud → turn on "Access iCloud
+Data on the Web"*). If the switch is off, you will sign in but see no photos or files.
+
+Accounts with **Advanced Data Protection** cannot use this app — that data is
+end-to-end encrypted, and no web client can read it.
+
+**中文** —— 必须先允许**网页访问**你的 iCloud 数据。在 iPhone 或 iPad 上：
+*设置 → 你的姓名 → iCloud → iCloud.com → 打开「允许数据访问」*
+（iOS 18 及更早版本：*设置 → 你的姓名 → iCloud → 打开「在网页上访问 iCloud 数据」*）。
+这个开关关着的话，登录能成功，但相册和云盘会是空的。
+
+开启了「**高级数据保护**」的账号无法使用本应用 —— 那是一套端到端加密，任何网页客户端都读不到。
 
 ---
 
 ## English
 
-An unofficial Android client for iCloud Photos and iCloud Drive. It talks to the
-same web API that icloud.com uses, so a regular Apple ID with two-factor
-authentication is enough — no app-specific password, no Mac, no jailbreak.
-
-### Features
+### What it does
 
 | | |
 |---|---|
-| **Sign-in** | SRP-6a (RFC 5054), 2FA via trusted device or SMS, session reuse so 2FA is needed once |
-| **Photos** | Album list, pinch-to-zoom grid, viewer that pages left/right across the whole library |
-| **Live Photos** | `LIVE` badge in the grid, motion playback from the viewer |
-| **Video** | Playback with play/pause, seek, and elapsed/total time |
-| **Upload** | Photos and videos into iCloud Photos; Drive browse, download, upload, delete |
-| **Security** | Session tokens encrypted with AndroidKeyStore + AES-256-GCM; optional biometric lock |
+| **Photos** | Album list, pinch-to-zoom grid, full-screen viewer that pages left/right across the whole library |
+| **Live Photos** | `LIVE` badge in the grid; motion plays from the viewer |
+| **Video** | Tap to play, with a control bar for play/pause and seeking |
+| **Upload** | Photos and videos into iCloud Photos; any file into iCloud Drive |
+| **Drive** | Browse folders, download to the device, upload, delete |
+| **Sign-in** | Regular Apple ID + two-factor authentication; the session is reused, so 2FA is needed once |
+| **Security** | Session tokens encrypted with AndroidKeyStore + AES-256-GCM; optional biometric app lock |
 | **Languages** | English, 简体中文, 繁體中文, 日本語, 한국어 |
 
-Tested on a Samsung SM-S9380 (Android 16). `minSdk` is 26.
+### Install
 
-### Build
+1. Open [Releases](https://github.com/Mendacious9/iCloudBridge/releases) and download
+   the latest `app-release.apk`.
+2. Tap the file on your phone and allow *Install unknown apps* for your browser or
+   file manager when prompted.
+3. Open **iCloudBridge** and sign in with your Apple ID.
+4. Approve the two-factor prompt on a trusted device (or by SMS).
 
-Requires **JDK 21** and the Android SDK with platform 35. Kotlin 2.0.x and AGP 8.9
-do not support JDK 25.
+Requires Android 8.0 or newer. The APK is not on any app store, so updates happen
+inside the app: *Settings → Update → Check for updates*.
 
-```bash
-echo "sdk.dir=/path/to/Android/sdk" > local.properties
-./gradlew :app:assembleDebug      # → app/build/outputs/apk/debug/
-./gradlew :core:icloud:test       # protocol unit tests, plain JVM
-```
+If no release has been published yet, build it yourself —
+see [docs/BUILD.zh-CN.md](docs/BUILD.zh-CN.md).
 
-Release builds are signed from `keystore/keystore.properties`, which is
-git-ignored — copy `keystore/keystore.properties.example` and fill it in.
+### Using it
 
-### In-app updates
+- **Photos** — tap any thumbnail for full screen; swipe left or right to keep going
+  through the entire library, photos and videos alike. Pinch the grid to change the
+  thumbnail size.
+- **Live Photos** — items with a `LIVE` badge on the thumbnail can play their motion;
+  open one and tap the `LIVE` button in the top bar.
+- **Video** — plays in place; tap the screen to show the control bar, drag the slider
+  to seek.
+- **Download** — in the viewer, use the download button in the top bar. Photos land in
+  `Pictures/iCloudBridge`, videos in `Movies/iCloudBridge`.
+- **Upload** — the upload button in the photo grid picks from your phone; in Drive,
+  it uploads any file into the current folder.
+- **Drive** — browse folders, download a file to `Download`, or delete it.
+- **App lock** — optional fingerprint or face unlock in Settings.
+- **Updates** — Settings → Update → Check for updates.
 
-The app is distributed outside any store, so it updates itself: it downloads a new
-APK, verifies it, and hands it to the system installer.
+### Known limitations
 
-```bash
-# 1. bump appVersionCode / appVersionName in app/build.gradle.kts
-# 2. build and write the manifest
-./gradlew :app:writeUpdateManifest
-# 3. edit apkUrl and changelog, then attach the APK and update.json
-#    to a GitHub Release tagged v<versionName>
-```
-
-Four checks must pass before anything is installed: SHA-256, signing certificate
-(must equal the installed app's), package name, and versionCode. Any mismatch
-aborts and deletes the download.
-
-### Notes
-
-- `core/icloud` is a pure Kotlin protocol layer with no Android dependency, covered
-  by JVM unit tests.
 - The photo library is effectively read-only: no album creation, no per-asset delete.
-- Client identifiers in `ICloudConstants` are copied from the web client and must be
-  updated when Apple changes them — the usual cause of a sudden "login stopped working".
-- Deeper protocol notes (Chinese): [docs/PROTOCOL.zh-CN.md](docs/PROTOCOL.zh-CN.md)
+- Video upload only accepts codecs Apple can transcode (H.264/HEVC); anything else is
+  rejected with a clear message.
+- Drive uploads have no resume.
 
 ### Disclaimer
 
@@ -78,60 +91,53 @@ only in iCloud, do not rely on this app as your sole means of accessing it.
 
 ## 中文
 
-安卓端访问 **iCloud 照片** 与 **iCloud 云盘** 的非官方客户端。走的是 icloud.com
-网页端同一套 Web API，只要一个普通 Apple ID 加双重认证就能登录 —— 不需要 App
-专用密码，不需要 Mac，也不需要越狱。
-
-### 功能
+### 能做什么
 
 | | |
 |---|---|
-| **登录** | SRP-6a（RFC 5054），支持受信设备 / 短信双重认证；会话可复用，2FA 只需过一次 |
-| **相册** | 相册列表、双指缩放网格、查看器左右滑动跨整库翻页 |
-| **实况照片** | 网格 `LIVE` 角标，查看器内播放动态 |
-| **视频** | 原地播放，播放/暂停、进度拖动、当前/总时长 |
-| **上传** | 照片与视频上传进 iCloud 照片图库；云盘浏览、下载、上传、删除 |
+| **相册** | 相册列表、双指缩放网格、全屏查看器，左右滑动可跨整库连续翻页 |
+| **实况照片** | 缩略图左下角 `LIVE` 角标，查看器内可播放动态 |
+| **视频** | 点开即播，自绘控制条支持播放/暂停与进度拖动 |
+| **上传** | 照片、视频上传进 iCloud 照片图库；任意文件上传到 iCloud 云盘 |
+| **云盘** | 目录浏览、下载到本机、上传、删除 |
+| **登录** | 普通 Apple ID + 双重认证；会话可复用，2FA 只需过一次 |
 | **安全** | 会话令牌用 AndroidKeyStore + AES-256-GCM 加密落盘；可选指纹 / 人脸应用锁 |
 | **多语言** | 英文、简体中文、繁體中文、日本語、한국어 |
 
-在三星 SM-S9380（Android 16）上实测通过，`minSdk = 26`。
+### 安装
 
-### 构建
+1. 打开 [Releases](https://github.com/Mendacious9/iCloudBridge/releases)，下载最新的
+   `app-release.apk`。
+2. 在手机上点开这个文件；系统询问时，给你的浏览器或文件管理器打开
+   「安装未知应用」权限。
+3. 打开 **iCloudBridge**，用 Apple ID 登录。
+4. 在受信设备上确认双重认证（或改用短信验证码）。
 
-需要 **JDK 21** 与带 platform 35 的 Android SDK；Kotlin 2.0.x 与 AGP 8.9
-不支持 JDK 25。
+要求 Android 8.0 以上。本应用不上任何商店，更新在应用内完成：
+*设置 → 更新 → 检查更新*。
 
-```bash
-echo "sdk.dir=/path/to/Android/sdk" > local.properties
-./gradlew :app:assembleDebug      # → app/build/outputs/apk/debug/
-./gradlew :core:icloud:test       # 协议层单元测试（纯 JVM）
-```
+如果 Releases 里还没有可下载的包，可以自己编译，见
+[docs/BUILD.zh-CN.md](docs/BUILD.zh-CN.md)。
 
-release 包从 `keystore/keystore.properties` 读签名配置，该文件不入版本库 ——
-复制 `keystore/keystore.properties.example` 后填写即可。
+### 怎么用
 
-### 线上更新
+- **看照片** —— 点任意缩略图进入全屏，左右滑动可以一直翻下去，照片和视频混在一起。
+  在网格上双指捏合能改变缩略图大小。
+- **实况照片** —— 缩略图带 `LIVE` 角标的才有动态；进全屏后点顶栏的 `LIVE` 按钮播放，
+  约 3 秒后自动回到静态。
+- **视频** —— 点开即播；点一下画面调出控制条，拖进度条可以跳转。
+- **下载** —— 全屏查看器顶栏的下载按钮。照片存到 `Pictures/iCloudBridge`，
+  视频存到 `Movies/iCloudBridge`。
+- **上传** —— 相册页的上传按钮从手机里挑照片或视频；云盘页则把任意文件传进当前目录。
+- **云盘** —— 浏览目录、下载到 `Download`、删除文件。
+- **应用锁** —— 设置里可开指纹或人脸解锁。
+- **更新** —— 设置 → 更新 → 检查更新。
 
-本应用不上任何商店，更新由客户端自己完成：下载新 APK → 校验 → 交给系统安装器。
+### 已知限制
 
-```bash
-# 1. 改 app/build.gradle.kts 里的 appVersionCode / appVersionName
-# 2. 构建并生成清单
-./gradlew :app:writeUpdateManifest
-# 3. 编辑 apkUrl 与 changelog，把 APK 与 update.json 一起传到
-#    v<versionName> 的 GitHub Release
-```
-
-安装前必须通过四道校验：SHA-256、签名证书（须与已装包一致）、包名、
-versionCode。任一条不符即中止并删除安装包。
-
-### 说明
-
-- 协议层 `core/icloud` 不依赖 Android，由 JVM 单测覆盖。
 - 相册基本只读：不能新建相册，也不能单张删除。
-- `ICloudConstants` 里的客户端标识抄自网页端，苹果改版时必须跟着更新 ——
-  用户反馈「突然登录不了」，九成是这个原因。
-- 更细的协议笔记见 [docs/PROTOCOL.zh-CN.md](docs/PROTOCOL.zh-CN.md)。
+- 视频上传只接受苹果能转码的编码（H.264 / HEVC），其他格式会被明确拒收。
+- 云盘上传不支持断点续传。
 
 ### 免责声明
 
@@ -139,6 +145,24 @@ versionCode。任一条不符即中止并删除安装包。
 的商标，此处仅用于说明互通对象。本项目免费、按原样提供，不附带任何担保，
 使用风险自负。若某张照片或某个文件只存在于 iCloud，请勿将本应用作为唯一的
 取用途径。
+
+---
+
+## For developers · 开发者
+
+Build, signing, release flow and protocol notes:
+
+- [docs/BUILD.zh-CN.md](docs/BUILD.zh-CN.md) — 构建、签名、发版、测试
+- [docs/PROTOCOL.zh-CN.md](docs/PROTOCOL.zh-CN.md) — 协议笔记（上传、实况照片、播放器、会话恢复）
+
+```bash
+echo "sdk.dir=/path/to/Android/sdk" > local.properties
+./gradlew :app:assembleDebug      # → app/build/outputs/apk/debug/
+./gradlew :core:icloud:test       # protocol unit tests, plain JVM
+```
+
+`core/icloud` is a pure Kotlin protocol layer with no Android dependency; `app/` is
+the Compose client.
 
 ---
 
