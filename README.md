@@ -1,241 +1,145 @@
 # iCloudBridge
 
-An **unofficial** Android client for iCloud Photos and iCloud Drive.
+**An unofficial Android client for iCloud Photos and iCloud Drive.**
+**非官方的 iCloud 相册与云盘安卓客户端。**
 
-It talks to the same private web API that icloud.com uses, so an ordinary Apple ID
-and password (plus two-factor authentication) is enough — no App-specific password,
-no Mac, no jailbreak.
-
-> **中文说明见 [README.zh-CN.md](README.zh-CN.md)**（含完整的协议逆向笔记，讲清了上传、
-> 实况照片、云盘目录这些坑）。
+`Kotlin` · `Jetpack Compose` · `MIT` · `minSdk 26`
 
 ---
 
-## ⚠️ Read this first
+## English
 
-- **This project is not affiliated with, endorsed by, or supported by Apple Inc.**
-  "iCloud" is a trademark of Apple Inc., used here only to describe interoperability.
-- It uses a **reverse-engineered private API**. Apple's iCloud Terms of Service
-  prohibit accessing the service "through any automated means" and prohibit
-  unauthorised access. **Using this app may therefore violate those terms**, and
-  Apple may suspend or terminate the Apple ID you use with it.
-- It is published **free of charge, as-is, with no warranty** (see [LICENSE](LICENSE)).
-  If a photo or a file exists only in iCloud, **do not** use this app as your sole
-  means of accessing it. Keep a second copy.
-- The API is undocumented and changes without notice. A future iCloud release may
-  break this app completely, and there is no fix schedule.
+An unofficial Android client for iCloud Photos and iCloud Drive. It talks to the
+same web API that icloud.com uses, so a regular Apple ID with two-factor
+authentication is enough — no app-specific password, no Mac, no jailbreak.
 
-If any of that is not acceptable to you, please do not use this project.
+### Features
 
----
-
-## What it does
-
-| Area | Capability |
+| | |
 |---|---|
-| Sign-in | SRP-6a (RFC 5054, 2048-bit) against `idmsa.apple.com`, two-factor via trusted device or SMS, session reuse so you only solve 2FA once |
-| Photos | Album list, pinch-to-zoom grid whose step size changes as you zoom, viewer with left/right swipe paging across the whole library |
-| Live Photos | `LIVE` badge in the grid, motion playback from the viewer (button or long-press) |
-| Video | In-place playback with a self-drawn control bar (play/pause, seek, elapsed/total) |
-| Upload | Photos and videos into the iCloud Photo Library, with transcoding and clear errors for media Apple refuses |
-| Drive | Folder browsing, download to device, upload, delete |
-| Security | Session tokens encrypted with AndroidKeyStore + AES-256-GCM, optional biometric app lock |
-| Languages | English, 简体中文, 繁體中文, 日本語, 한국어 — UI and error messages |
+| **Sign-in** | SRP-6a (RFC 5054), 2FA via trusted device or SMS, session reuse so 2FA is needed once |
+| **Photos** | Album list, pinch-to-zoom grid, viewer that pages left/right across the whole library |
+| **Live Photos** | `LIVE` badge in the grid, motion playback from the viewer |
+| **Video** | Playback with play/pause, seek, and elapsed/total time |
+| **Upload** | Photos and videos into iCloud Photos; Drive browse, download, upload, delete |
+| **Security** | Session tokens encrypted with AndroidKeyStore + AES-256-GCM; optional biometric lock |
+| **Languages** | English, 简体中文, 繁體中文, 日本語, 한국어 |
 
-Tested on a Samsung SM-S9380 (Android 16, 1440×3120). `minSdk` is 26, so anything
-from Android 8.0 up should at least run.
+Tested on a Samsung SM-S9380 (Android 16). `minSdk` is 26.
 
-## Architecture
+### Build
 
-```
-icloud-bridge/
-├── core/icloud/          Pure Kotlin protocol layer — runs on plain JVM, no Android
-│   └── src/main/kotlin/cn/yunqiao/icloud/
-│       ├── srp/          SRP-6a (RFC 5054, 2048-bit)
-│       ├── auth/         Sign-in, 2FA, session establishment
-│       ├── http/         OkHttp base + cookie persistence
-│       ├── photos/       CloudKit Web Services queries
-│       ├── drive/        CloudDrive listing and download
-│       ├── store/        Session stores (file / in-memory)
-│       └── tools/        VerifyMain: run the whole chain against a real session
-├── app/                  Android client (Jetpack Compose, single activity)
-└── poc/                  Python protocol PoC — kept as a readable reference
-```
-
-`core/icloud` has **no Android dependency**, which is what makes the protocol layer
-unit-testable and lets you drive it from a JVM CLI.
-
-## Build
-
-Requirements: **JDK 21** and the Android SDK with platform 35.
-
-Kotlin 2.0.x and AGP 8.9 do **not** support JDK 25 (the JBR bundled with recent
-Android Studio). Point Gradle at 21 — `gradle.properties` deliberately does not
-hard-code a path, so either set `JAVA_HOME` or pick the JDK under
-*Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JDK*.
+Requires **JDK 21** and the Android SDK with platform 35. Kotlin 2.0.x and AGP 8.9
+do not support JDK 25.
 
 ```bash
-# 1. Tell Gradle where your SDK is (this file is git-ignored)
 echo "sdk.dir=/path/to/Android/sdk" > local.properties
-
-# 2. Build a debug APK
-./gradlew :app:assembleDebug
-# → app/build/outputs/apk/debug/app-debug.apk
-
-# 3. Run the protocol unit tests
-./gradlew :core:icloud:test
-
-# 4. Install on a connected device
-adb install -r app/build/outputs/apk/debug/app-debug.apk
+./gradlew :app:assembleDebug      # → app/build/outputs/apk/debug/
+./gradlew :core:icloud:test       # protocol unit tests, plain JVM
 ```
 
-### Release signing
+Release builds are signed from `keystore/keystore.properties`, which is
+git-ignored — copy `keystore/keystore.properties.example` and fill it in.
 
-Release builds are signed from `keystore/keystore.properties`, which is git-ignored.
-Copy the template and fill it in:
+### In-app updates
+
+The app is distributed outside any store, so it updates itself: it downloads a new
+APK, verifies it, and hands it to the system installer.
 
 ```bash
-cp keystore/keystore.properties.example keystore/keystore.properties
-./gradlew :app:assembleRelease
+# 1. bump appVersionCode / appVersionName in app/build.gradle.kts
+# 2. build and write the manifest
+./gradlew :app:writeUpdateManifest
+# 3. edit apkUrl and changelog, then attach the APK and update.json
+#    to a GitHub Release tagged v<versionName>
 ```
 
-Without that file, `assembleRelease` still runs but produces an **unsigned** APK.
+Four checks must pass before anything is installed: SHA-256, signing certificate
+(must equal the installed app's), package name, and versionCode. Any mismatch
+aborts and deletes the download.
 
-Because release and debug use different keys, you cannot `install -r` one over the
-other — and uninstalling wipes the saved session, costing you another 2FA round.
-For UI work on a real device, sign the debug variant with the release key instead:
+### Notes
+
+- `core/icloud` is a pure Kotlin protocol layer with no Android dependency, covered
+  by JVM unit tests.
+- The photo library is effectively read-only: no album creation, no per-asset delete.
+- Client identifiers in `ICloudConstants` are copied from the web client and must be
+  updated when Apple changes them — the usual cause of a sudden "login stopped working".
+- Deeper protocol notes (Chinese): [docs/PROTOCOL.zh-CN.md](docs/PROTOCOL.zh-CN.md)
+
+### Disclaimer
+
+Not affiliated with, endorsed by, or supported by Apple Inc. "iCloud" is a trademark
+of Apple Inc., used here only to describe interoperability. Provided free of charge,
+as-is, without warranty of any kind — use at your own risk. If a photo or file exists
+only in iCloud, do not rely on this app as your sole means of accessing it.
+
+---
+
+## 中文
+
+安卓端访问 **iCloud 照片** 与 **iCloud 云盘** 的非官方客户端。走的是 icloud.com
+网页端同一套 Web API，只要一个普通 Apple ID 加双重认证就能登录 —— 不需要 App
+专用密码，不需要 Mac，也不需要越狱。
+
+### 功能
+
+| | |
+|---|---|
+| **登录** | SRP-6a（RFC 5054），支持受信设备 / 短信双重认证；会话可复用，2FA 只需过一次 |
+| **相册** | 相册列表、双指缩放网格、查看器左右滑动跨整库翻页 |
+| **实况照片** | 网格 `LIVE` 角标，查看器内播放动态 |
+| **视频** | 原地播放，播放/暂停、进度拖动、当前/总时长 |
+| **上传** | 照片与视频上传进 iCloud 照片图库；云盘浏览、下载、上传、删除 |
+| **安全** | 会话令牌用 AndroidKeyStore + AES-256-GCM 加密落盘；可选指纹 / 人脸应用锁 |
+| **多语言** | 英文、简体中文、繁體中文、日本語、한국어 |
+
+在三星 SM-S9380（Android 16）上实测通过，`minSdk = 26`。
+
+### 构建
+
+需要 **JDK 21** 与带 platform 35 的 Android SDK；Kotlin 2.0.x 与 AGP 8.9
+不支持 JDK 25。
 
 ```bash
-./gradlew :app:assembleDebug -PdebugSignWithRelease=true
+echo "sdk.dir=/path/to/Android/sdk" > local.properties
+./gradlew :app:assembleDebug      # → app/build/outputs/apk/debug/
+./gradlew :core:icloud:test       # 协议层单元测试（纯 JVM）
 ```
 
-## Security model
+release 包从 `keystore/keystore.properties` 读签名配置，该文件不入版本库 ——
+复制 `keystore/keystore.properties.example` 后填写即可。
 
-- Your password is **never written to disk**. It is used once to compute the SRP
-  proof, and lives only in the composable's in-memory state until the screen leaves.
-- The session token and `X-APPLE-WEBAUTH-*` cookies are **long-term credentials**
-  (they bypass 2FA on reuse). They are stored encrypted with an AES-256-GCM key that
-  is generated in and never leaves the **AndroidKeyStore**.
-- `android:allowBackup="false"` and `android:usesCleartextTraffic="false"`; the only
-  permissions are `INTERNET` and `ACCESS_NETWORK_STATE`.
-- Traffic goes only to Apple's own hosts (`*.apple.com`, `*.icloud.com`,
-  `*.icloud-content.com`). There is **no analytics, no crash reporting, no server of
-  ours** in the path — the app cannot see your data even if we wanted it to.
-- The optional app lock uses `BiometricPrompt` with `BIOMETRIC_WEAK` (so 2D face
-  unlock works) and falls back to the device credential.
+### 线上更新
 
-If you find a security issue, please open an issue — or contact the maintainer
-privately if it is sensitive.
-
-## Releases and in-app updates
-
-This app is not distributed through any store, so it updates itself: it downloads a
-new APK, verifies it, and hands it to the system installer. There is no Play
-In-App Updates API involved.
-
-### Publishing a version
-
-1. Bump the version **in one place** — `app/build.gradle.kts`:
-
-   ```kotlin
-   val appVersionCode = 7          // must increase every release
-   val appVersionName = "1.0.5"
-   ```
-
-2. Build and generate the manifest:
-
-   ```bash
-   ./gradlew :app:writeUpdateManifest
-   # → app/build/outputs/apk/release/app-release.apk
-   # → app/build/outputs/update.json        (versionCode, sha256, size)
-   ```
-
-3. Edit `update.json`: replace `<owner>/<repo>` in `apkUrl` with your repository,
-   fill in `changelog`, and set `minSupportedVersionCode` if this release must be
-   forced. Then create a GitHub Release tagged `v1.0.5` and upload **both**
-   `app-release.apk` and `update.json` as assets.
-
-The app reads `GET /repos/{owner}/{repo}/releases/latest`, finds the `update.json`
-asset, and follows it. If that fails for any reason — no network to GitHub, no
-release, no asset — it falls back to `UpdateConfig.MANIFEST_URL` (a plain static
-URL you control). Configure both in
-`app/src/main/kotlin/cn/yunqiao/icloud/app/update/UpdateManifest.kt`.
-
-### Manifest format
-
-```json
-{
-  "versionCode": 7,
-  "versionName": "1.0.5",
-  "apkUrl": "https://github.com/you/iCloudBridge/releases/download/v1.0.5/app-release.apk",
-  "sha256": "<64 hex chars>",
-  "sizeBytes": 18930122,
-  "minSupportedVersionCode": 6,
-  "changelog": { "en": "Faster albums.", "zh-CN": "相册加载更快。" },
-  "publishedAt": "2026-11-11"
-}
-```
-
-`versionCode` is the only thing compared; `versionName` is display-only.
-`minSupportedVersionCode` is the floor for forced updates — an install below it
-cannot dismiss the dialog and must update.
-
-### What gets verified before an install
-
-Every update is checked four ways, and **any** mismatch aborts the install:
-
-1. **SHA-256** against `sha256` (if present);
-2. **Signing certificate** must equal the installed app's certificate — this is the
-   real defence, since a forged APK cannot be signed with your key;
-3. **Package name** must match;
-4. **versionCode** in the APK must equal the manifest's.
-
-The APK is downloaded to the app cache and deleted on failure.
-
-## Known limitations
-
-- The photo library is effectively read-only: no creating albums, renaming, or
-  deleting individual assets (deletion only through "Recently Deleted").
-- Video upload depends on Apple's transcoder. Anything outside H.264/HEVC is
-  rejected with HTTP 415, surfaced as a distinct error rather than "retry".
-- Drive uploads have no resume; the UI blocks while uploading so a half-written
-  file cannot be left behind.
-- Subscription changes, Family Sharing and the device list are not exposed by the
-  private web API; those still require icloud.com.
-- The client identifiers in `ICloudConstants` (widget key, client build number, UA)
-  are copied from the web client and **must be updated when Apple changes them**.
-  This is the most likely cause of a sudden "login stopped working" report.
-
-## Tests
+本应用不上任何商店，更新由客户端自己完成：下载新 APK → 校验 → 交给系统安装器。
 
 ```bash
-./gradlew :core:icloud:test        # SRP vectors + protocol parsing, JVM-only
+# 1. 改 app/build.gradle.kts 里的 appVersionCode / appVersionName
+# 2. 构建并生成清单
+./gradlew :app:writeUpdateManifest
+# 3. 编辑 apkUrl 与 changelog，把 APK 与 update.json 一起传到
+#    v<versionName> 的 GitHub Release
 ```
 
-Instrumented tests (session encryption, media transcoding) require a device or
-emulator running API 26+:
+安装前必须通过四道校验：SHA-256、签名证书（须与已装包一致）、包名、
+versionCode。任一条不符即中止并删除安装包。
 
-```bash
-./gradlew :app:connectedAndroidTest
-```
+### 说明
 
-## Contributing
+- 协议层 `core/icloud` 不依赖 Android，由 JVM 单测覆盖。
+- 相册基本只读：不能新建相册，也不能单张删除。
+- `ICloudConstants` 里的客户端标识抄自网页端，苹果改版时必须跟着更新 ——
+  用户反馈「突然登录不了」，九成是这个原因。
+- 更细的协议笔记见 [docs/PROTOCOL.zh-CN.md](docs/PROTOCOL.zh-CN.md)。
 
-Issues and pull requests are welcome. Please:
+### 免责声明
 
-1. Keep `core/icloud` free of Android imports — it is the portable layer.
-2. Add a unit test for protocol parsing changes; the fixtures in
-   `core/icloud/src/test/` show the CloudKit record shape.
-3. Never commit a real Apple ID, session file, cookie jar, or keystore.
-4. Keep all five `values*/strings.xml` files in sync.
+本项目与 Apple Inc. 无任何关联，未获其授权或认可。"iCloud" 是 Apple Inc.
+的商标，此处仅用于说明互通对象。本项目免费、按原样提供，不附带任何担保，
+使用风险自负。若某张照片或某个文件只存在于 iCloud，请勿将本应用作为唯一的
+取用途径。
 
-## Credits
-
-The protocol understanding stands on the shoulders of
-[pyicloud](https://github.com/picklepete/pyicloud) and
-[icloudpd](https://github.com/icloud-photos-downloader/icloud_photos_downloader).
-The SRP implementation follows RFC 5054.
-
-## License
+---
 
 [MIT](LICENSE) © 2026 iCloudBridge contributors
