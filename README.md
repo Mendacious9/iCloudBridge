@@ -35,6 +35,16 @@
 
 ---
 
+## 🔒 隐私 · Privacy
+
+**中文** —— 你的数据只在你和 iCloud 之间流动，没有任何第三方服务器中转；会话令牌用 AndroidKeyStore + AES-256-GCM 加密后存在本机，密码从不保存，没有统计 SDK，也没有行为埋点。<br>
+**不会收集、上传或分享你的任何信息。**
+
+**English** — Your data moves only between your phone and iCloud; no third-party server sits in the middle. Session tokens are encrypted on-device with AndroidKeyStore + AES-256-GCM, your password is never stored, and there is no analytics SDK or behavioural tracking.<br>
+**Nothing about you is collected, uploaded, or shared.**
+
+---
+
 ## ⚠️ Before you start · 使用前必读
 
 **English** — Your Apple ID must allow **web access**. On iPhone or iPad:
