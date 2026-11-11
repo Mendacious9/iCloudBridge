@@ -57,7 +57,7 @@ data class UpdateManifest(
     /**
      * 取当前系统语言对应的更新日志。
      *
-     * 匹配顺序：完整标签（`zh-CN`）→ 语言部分（`zh`）→ 英文 → 任意一条。
+     * 匹配顺序：完整标签（`zh-CN`）→ 语言部分（`zh`）→ 简繁退化 → 英文 → 任意一条。
      * 都没有就返回 null，界面会退化成只显示版本号，不会出现空白对话框。
      */
     fun changelogFor(locale: Locale = Locale.getDefault()): String? {
@@ -66,10 +66,19 @@ data class UpdateManifest(
         changelog[full]?.let { return it }
         changelog[full.substringBefore('-')]?.let { return it }
 
-        // 繁体中文写 zh-TW / zh-HK 都算，统一退化到 zh-TW
-        if (full.startsWith("zh")) {
-            changelog["zh-TW"]?.let { return it }
-            changelog["zh-CN"]?.let { return it }
+        if (full.startsWith("zh", ignoreCase = true)) {
+            // 简繁必须分开判断：简体设备（zh-Hans-CN）落进「先取 zh-TW」的旧逻辑，
+            // 会出现简中用户看到繁体更新日志。脚本标记优先，其次才看地区。
+            val traditional = when (full.split('-').getOrNull(1)?.uppercase()) {
+                "HANT" -> true
+                "HANS" -> false
+                // 没有脚本标记时按地区判断：tw / hk / mo 是繁体区
+                else -> listOf("TW", "HK", "MO").any { full.endsWith("-$it", ignoreCase = true) }
+            }
+            val first = if (traditional) "zh-TW" else "zh-CN"
+            val second = if (traditional) "zh-CN" else "zh-TW"
+            changelog[first]?.let { return it }
+            changelog[second]?.let { return it }
         }
         changelog["en"]?.let { return it }
         return changelog.values.firstOrNull()

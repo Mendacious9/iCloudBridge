@@ -181,4 +181,5 @@
     <string name="update_download_failed">Download failed: %1$s</string>
     <string name="update_need_permission">Allow this app to install apps, then try again.</string>
     <string name="update_install_failed">Couldn\'t open the system installer. Please install manually from Settings.</string>
+    <string name="update_install_failed_detail">Installation failed: %1$s</string>
 </resources>

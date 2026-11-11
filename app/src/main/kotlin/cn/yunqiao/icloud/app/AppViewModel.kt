@@ -28,6 +28,8 @@ import cn.yunqiao.icloud.drive.DriveApi
 import cn.yunqiao.icloud.app.media.MediaInspector
 import cn.yunqiao.icloud.app.media.VideoTranscoder
 import cn.yunqiao.icloud.app.update.ApkInstaller
+import cn.yunqiao.icloud.app.update.InstallOutcome
+import cn.yunqiao.icloud.app.update.InstallResult
 import cn.yunqiao.icloud.app.update.UpdateChecker
 import cn.yunqiao.icloud.app.update.UpdateConfig
 import cn.yunqiao.icloud.app.update.UpdateDownloader
@@ -326,6 +328,28 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     init {
         bootstrap()
+        observeInstallResult()
+    }
+
+    /**
+     * 系统安装器的回执。
+     *
+     * 成功时进程会被替换，收不到无所谓；失败和取消必须收：
+     * 否则用户点完「立即更新」、在确认页按了取消，界面会一直停在「准备安装」。
+     */
+    private fun observeInstallResult() {
+        viewModelScope.launch {
+            InstallOutcome.events.collect { result ->
+                val state = updateState as? UpdateState.ReadyToInstall ?: return@collect
+                when (result) {
+                    is InstallResult.Cancelled ->
+                        updateState = UpdateState.Available(state.manifest, state.forced)
+
+                    is InstallResult.Failed ->
+                        error = uiText(R.string.update_install_failed_detail, result.message)
+                }
+            }
+        }
     }
 
     // ---------------------------------------------------------------- 启动
@@ -1486,15 +1510,28 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     /** 交给系统安装器。没有「安装未知应用」权限时先跳设置页。 */
     fun installUpdate() {
         val state = updateState as? UpdateState.ReadyToInstall ?: return
+        // 写 session 要复制整个包，期间按钮可能被连点，挡一下
+        if (installing) return
         if (!ApkInstaller.canInstall(appContext)) {
             ApkInstaller.openInstallPermission(appContext)
             error = uiText(R.string.update_need_permission)
             return
         }
-        if (!ApkInstaller.install(appContext, state.apk)) {
-            error = uiText(R.string.update_install_failed)
+        installing = true
+        viewModelScope.launch {
+            try {
+                // 12 MB 的包写进 installer session，别放在主线程
+                withContext(Dispatchers.IO) { ApkInstaller.install(appContext, state.apk) }
+            } catch (e: Throwable) {
+                error = uiText(R.string.update_install_failed_detail, e.message.orEmpty())
+            } finally {
+                installing = false
+            }
         }
     }
+
+    /** 正在把 APK 写进 installer session */
+    private var installing = false
 
     /** 关闭对话框，下次启动再提 */
     fun dismissUpdate() {

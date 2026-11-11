@@ -172,4 +172,5 @@
     <string name="update_download_failed">下載失敗：%1$s</string>
     <string name="update_need_permission">需要先允許本應用程式安裝應用程式，已為你開啟設定。</string>
     <string name="update_install_failed">無法開啟系統安裝程式，請到設定中手動安裝。</string>
+    <string name="update_install_failed_detail">安裝失敗：%1$s</string>
 </resources>

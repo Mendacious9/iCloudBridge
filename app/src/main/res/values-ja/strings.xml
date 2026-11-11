@@ -172,4 +172,5 @@
     <string name="update_download_failed">ダウンロードに失敗しました：%1$s</string>
     <string name="update_need_permission">このアプリにアプリのインストールを許可してから、もう一度お試しください。</string>
     <string name="update_install_failed">システムのインストーラーを開けませんでした。設定から手動でインストールしてください。</string>
+    <string name="update_install_failed_detail">インストールに失敗しました: %1$s</string>
 </resources>

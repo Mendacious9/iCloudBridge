@@ -181,4 +181,5 @@
     <string name="update_download_failed">下载失败：%1$s</string>
     <string name="update_need_permission">需要先允许本应用安装应用，已为你打开设置。</string>
     <string name="update_install_failed">无法调起系统安装器，请到设置里手动安装。</string>
+    <string name="update_install_failed_detail">安装失败：%1$s</string>
 </resources>

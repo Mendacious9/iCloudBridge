@@ -73,6 +73,20 @@ class UpdateManifestTest {
     }
 
     @Test
+    fun `简体设备不会拿到繁体日志`() {
+        val m = manifest(changelog = mapOf("zh-CN" to "简中", "zh-TW" to "繁中"))
+
+        // zh-Hans-CN 这类完整标签没有精确命中，必须落到「简体优先」而不是繁体的旧逻辑
+        assertEquals("简中", m.changelogFor(Locale.forLanguageTag("zh-Hans-CN")))
+        assertEquals("简中", m.changelogFor(Locale.forLanguageTag("zh-Hans")))
+        assertEquals("简中", m.changelogFor(Locale.forLanguageTag("zh")))
+
+        assertEquals("繁中", m.changelogFor(Locale.forLanguageTag("zh-Hant-HK")))
+        assertEquals("繁中", m.changelogFor(Locale.forLanguageTag("zh-HK")))
+        assertEquals("繁中", m.changelogFor(Locale.TRADITIONAL_CHINESE))
+    }
+
+    @Test
     fun `没有对应语言时退到英文`() {
         val m = manifest(changelog = mapOf("en" to "EN only"))
         assertEquals("EN only", m.changelogFor(Locale.JAPAN))

@@ -42,6 +42,17 @@
         </activity>
 
         <!--
+            自更新：PackageInstaller 提交 session 后，系统通过我们自己的 PendingIntent
+            把结果发到这里（含「请拉起安装确认页」这一种）。
+
+            exported=false：广播只可能来自本应用创建的那个 PendingIntent，
+            外部应用伪造不了。缺了这一个 receiver，点「立即更新」会毫无反应。
+        -->
+        <receiver
+            android:name=".update.InstallResultReceiver"
+            android:exported="false" />
+
+        <!--
             云盘文件「打开」用：把 cache/drive 下的文件以 content:// 形式临时授权给
             系统查看器（WPS、图库、PDF 阅读器等）。没有它，Android 7+ 用 file:// 会直接
             FileUriExposedException，表现就是「点文件没反应」。

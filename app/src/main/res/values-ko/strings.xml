@@ -172,4 +172,5 @@
     <string name="update_download_failed">다운로드 실패: %1$s</string>
     <string name="update_need_permission">이 앱에 앱 설치를 허용한 후 다시 시도하세요.</string>
     <string name="update_install_failed">시스템 설치 프로그램을 열 수 없습니다. 설정에서 직접 설치하세요.</string>
+    <string name="update_install_failed_detail">설치에 실패했습니다: %1$s</string>
 </resources>
