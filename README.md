@@ -5,6 +5,10 @@
 
 `Kotlin` · `Jetpack Compose` · `MIT` · `Android 8.0+`
 
+<p align="center">
+  <img src="docs/screenshots/sign-in.jpg" width="260" alt="iCloudBridge sign-in screen">
+</p>
+
 ---
 
 ## 🎯 什么时候用得上 · When this helps
@@ -64,26 +68,6 @@ end-to-end encrypted, and no web client can read it.
 
 ---
 
-## 📱 界面 · Screenshots
-
-真机截图：登录 → 双重认证 → 照片库 → 云盘 → 设置。<br>
-*Straight from a phone: sign-in, two-factor, library, Drive, settings.*
-
-<table align="center">
-  <tr>
-    <td align="center" valign="top"><img src="docs/screenshots/sign-in.jpg" width="200" alt="Sign in with an Apple ID"><br><sub>登录 · Sign in</sub></td>
-    <td align="center" valign="top"><img src="docs/screenshots/two-factor.jpg" width="200" alt="Two-factor authentication"><br><sub>双重认证 · 2FA</sub></td>
-    <td align="center" valign="top"><img src="docs/screenshots/photos.jpg" width="200" alt="Photo library grid"><br><sub>照片库 · Library</sub></td>
-  </tr>
-  <tr>
-    <td align="center" valign="top"><img src="docs/screenshots/drive.jpg" width="200" alt="iCloud Drive"><br><sub>云盘 · Drive</sub></td>
-    <td align="center" valign="top"><img src="docs/screenshots/settings.jpg" width="200" alt="Settings"><br><sub>设置 · Settings</sub></td>
-    <td></td>
-  </tr>
-</table>
-
----
-
 ## English
 
 ### What it does
@@ -99,6 +83,11 @@ end-to-end encrypted, and no web client can read it.
 | **Security** | Session tokens encrypted with AndroidKeyStore + AES-256-GCM; optional biometric app lock |
 | **Languages** | English, 简体中文, 繁體中文, 日本語, 한국어 |
 
+<p align="center">
+  <img src="docs/screenshots/photos.jpg" width="240" alt="Photo library grid"><br>
+  <sub>The whole library in one grid — tap to open, swipe to keep going</sub>
+</p>
+
 ### Install
 
 1. Open [Releases](https://github.com/Mendacious9/iCloudBridge/releases) and download
@@ -108,11 +97,21 @@ end-to-end encrypted, and no web client can read it.
 3. Open **iCloudBridge** and sign in with your Apple ID.
 4. Approve the two-factor prompt on a trusted device (or by SMS).
 
+<p align="center">
+  <img src="docs/screenshots/two-factor.jpg" width="200" alt="Two-factor screen with SMS and trusted-device options"><br>
+  <sub>First launch only — SMS works even without an iPhone at hand</sub>
+</p>
+
 Requires Android 8.0 or newer. The APK is not on any app store, so updates happen
 inside the app: *Settings → Update → Check for updates*.
 
 If no release has been published yet, build it yourself —
 see [docs/BUILD.zh-CN.md](docs/BUILD.zh-CN.md).
+
+<p align="center">
+  <img src="docs/screenshots/settings.jpg" width="180" alt="Settings screen: languages, biometric lock, storage usage, updates"><br>
+  <sub>Settings: languages, app lock, storage breakdown, in-app update</sub>
+</p>
 
 ### Using it
 
@@ -130,6 +129,11 @@ see [docs/BUILD.zh-CN.md](docs/BUILD.zh-CN.md).
 - **Drive** — browse folders, download a file to `Download`, or delete it.
 - **App lock** — optional fingerprint or face unlock in Settings.
 - **Updates** — Settings → Update → Check for updates.
+
+<p align="center">
+  <img src="docs/screenshots/drive.jpg" width="200" alt="iCloud Drive folder grid"><br>
+  <sub>Drive page: folders, upload, download, delete</sub>
+</p>
 
 ### Known limitations
 
@@ -162,6 +166,11 @@ only in iCloud, do not rely on this app as your sole means of accessing it.
 | **安全** | 会话令牌用 AndroidKeyStore + AES-256-GCM 加密落盘；可选指纹 / 人脸应用锁 |
 | **多语言** | 英文、简体中文、繁體中文、日本語、한국어 |
 
+<p align="center">
+  <img src="docs/screenshots/photos.jpg" width="240" alt="照片库网格"><br>
+  <sub>整个图库铺在一个网格里，点开就能一直左右滑下去</sub>
+</p>
+
 ### 安装
 
 1. 打开 [Releases](https://github.com/Mendacious9/iCloudBridge/releases)，下载最新的
@@ -171,11 +180,21 @@ only in iCloud, do not rely on this app as your sole means of accessing it.
 3. 打开 **iCloudBridge**，用 Apple ID 登录。
 4. 在受信设备上确认双重认证（或改用短信验证码）。
 
+<p align="center">
+  <img src="docs/screenshots/two-factor.jpg" width="200" alt="双重认证：短信验证码与受信设备"><br>
+  <sub>只有首次需要，身边没有 iPhone 也能用短信验证</sub>
+</p>
+
 要求 Android 8.0 以上。本应用不上任何商店，更新在应用内完成：
 *设置 → 更新 → 检查更新*。
 
 如果 Releases 里还没有可下载的包，可以自己编译，见
 [docs/BUILD.zh-CN.md](docs/BUILD.zh-CN.md)。
+
+<p align="center">
+  <img src="docs/screenshots/settings.jpg" width="180" alt="设置页：语言、生物识别、存储空间、更新"><br>
+  <sub>设置：多语言、应用锁、存储空间构成、应用内更新</sub>
+</p>
 
 ### 怎么用
 
@@ -190,6 +209,11 @@ only in iCloud, do not rely on this app as your sole means of accessing it.
 - **云盘** —— 浏览目录、下载到 `Download`、删除文件。
 - **应用锁** —— 设置里可开指纹或人脸解锁。
 - **更新** —— 设置 → 更新 → 检查更新。
+
+<p align="center">
+  <img src="docs/screenshots/drive.jpg" width="200" alt="云盘：文件夹网格"><br>
+  <sub>云盘页：文件夹、上传、下载、删除</sub>
+</p>
 
 ### 已知限制
 
